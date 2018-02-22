@@ -1,6 +1,7 @@
 import React, { Component } from 'react';  // This import has to be in every component
 import { StyleSheet, Text, View } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
+import Program from './src/components/program/Program';
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
   render() {  // Every component needs a render method that returns the JSX you want to display
@@ -21,6 +22,7 @@ export default class App extends Component {  // This is where you name the comp
         <Speaker style={styles.speaker} id='speaker-two' speakerNumber = {numberTwo}/>
         <Speaker style={styles.speaker} id='speaker-three' speakerNumber = {numberThree}/>
         <Text style={styles.text}>Merry Christmas!</Text>
+        <Program/>
       </View>
     );
   }
