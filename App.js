@@ -1,6 +1,7 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions  } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
 import Program from './src/components/program/Program';
 
@@ -9,8 +10,9 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
  
-const FirstRoute = () => <View style={[ styles.container, { backgroundColor: '#ff4081' } ]} />;
-const SecondRoute = () => <View style={[ styles.container, { backgroundColor: '#673ab7' } ]} />;
+const FirstRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
+const SecondRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
+const ThirdRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
 
 let numberOne = '1';
 let numberTwo = '2';
@@ -22,18 +24,25 @@ export default class App extends Component {  // This is where you name the comp
   state = {
     index: 0,
     routes: [
-      { key: 'first', title: 'First' },
-      { key: 'second', title: 'Second' },
+      { key: 'first', title: 'Speakers' },
+      { key: 'second', title: 'Program' },
+      { key: 'third', title: 'Info' },
     ],
   };
 
   _handleIndexChange = index => this.setState({ index });
  
-  _renderHeader = props => <TabBar {...props} />;
+  _renderFooter = props => <TabBar
+                             style={styles.tabs} 
+                             indicatorStyle={styles.tabIndicatorStyle} 
+                             labelStyle={styles.tabLabelStyle}
+                             {...props} 
+                            />;
  
   _renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
+    third: ThirdRoute,
   });
 
 
@@ -42,41 +51,29 @@ export default class App extends Component {  // This is where you name the comp
 
     return (
       <TabViewAnimated
-        style={styles.container}
         navigationState={this.state}
         renderScene={this._renderScene}
-        renderHeader={this._renderHeader}
+        renderFooter={this._renderFooter}
         onIndexChange={this._handleIndexChange}
         initialLayout={initialLayout}
       />
-
-      // <View style={styles.container}>
-      //   <Text style={styles.text}>This is the App.js</Text>
-      //   {/* 
-      //     This is how to comment inside the return function
-      //     Below is a typical usage of a component we created (Speaker)
-      //     The prop speakerNumber is passed to give each speaker-component individuallity
-      //   */}
-      //   <Speaker style={styles.speaker} id='speaker-one' speakerNumber = {numberOne}/>
-      //   <Speaker style={styles.speaker} id='speaker-two' speakerNumber = {numberTwo}/>
-      //   <Speaker style={styles.speaker} id='speaker-three' speakerNumber = {numberThree}/>
-      //   <Text style={styles.text}>Merry Christmas!</Text>
-      //   <Program/>
-      // </View>
     );
   }
 }
 
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // height: '100%',
-    // width: '100%',
-    // backgroundColor: 'green',  // Used ugly colors to make things clear and visible
     flex: 1,
   },
-  text: {
-    color: 'white',
+  tabs: {  // Styles for the tab boxes
+    backgroundColor: '#e6e6ec',
   },
+  tabLabelStyle: {  // Styles for the tabs label text
+    color: '#2a2d22',
+  },
+  tabIndicatorStyle: {  // Styles for the current tab indicator
+    backgroundColor: '#018440',  // This sets the indicator color
+    height: 3,  // Sets the height of the indicator
+    borderRadius: 15,
+  }
 });
