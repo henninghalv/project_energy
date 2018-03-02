@@ -6,7 +6,7 @@ export default class ComponentName extends Component { // Remember to give the c
 	render() {
 		return (
 			<View style={styles.viewStyles}>
-                {/* Beautiful goes here */}
+                {/* Beautiful code goes here */}
 			</View>
 		);
 	}
