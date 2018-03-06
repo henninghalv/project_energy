@@ -1,9 +1,12 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { Font, AppLoading } from 'expo';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Icon from 'react-native-vector-icons';
+
+import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
+import AppHeader from './src/components/app-header/AppHeader';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
 import Program from './src/components/program/Program';
 
@@ -12,23 +15,28 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
  
-const FirstRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
-const SecondRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
-const ThirdRoute = () => <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]} />;
-
-let numberOne = '1';
-let numberTwo = '2';
-let numberThree = '3';
-
+const FirstRoute = () => 
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Program'/>
+  </View>;
+const SecondRoute = () =>
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Speakers'/>
+  </View>;
+const ThirdRoute = () => 
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Information'/>
+  </View>;
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
 
   state = {
     fontLoaded: false,
     index: 0,
+    //This is where you name your routes/tabs and pass props like icons.
     routes: [
-      { key: 'first', title: 'Speakers', icon: <FontAwesome>{Icons.userCircle}</FontAwesome>},  // Here you decide the title of the tab and the icon
-      { key: 'second', title: 'Program', icon: <FontAwesome>{Icons.calendarO}</FontAwesome>},
+      { key: 'first', title: 'Program', icon: <FontAwesome>{Icons.calendarO}</FontAwesome>},
+      { key: 'second', title: 'Speakers', icon: <FontAwesome>{Icons.userCircle}</FontAwesome>},  // Here you decide the title of the tab and the icon
       { key: 'third', title: 'Info', icon: <FontAwesome>{Icons.infoCircle}</FontAwesome>},
     ],
   };
@@ -54,7 +62,7 @@ export default class App extends Component {  // This is where you name the comp
                              renderIcon={this._renderIcon(props)}
                              {...props} 
                             />;
- 
+  // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
@@ -71,17 +79,22 @@ export default class App extends Component {  // This is where you name the comp
       return <AppLoading />;  // render some progress indicator
     }
     return (
-      <TabViewAnimated
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderFooter={this._renderFooter}
-        onIndexChange={this._handleIndexChange}
-        initialLayout={initialLayout}
-      />
+      <View style={styles.container}>
+        <StatusBarPusher/>
+        <TabViewAnimated
+          navigationState={this.state}
+          renderScene={this._renderScene}
+          renderFooter={this._renderFooter}
+          onIndexChange={this._handleIndexChange}
+          initialLayout={initialLayout}
+        />
+      </View>
     );
   }
 }
 
+
+const win = Dimensions.get('window');  // Gets the device window for reference
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
     flex: 1,
@@ -97,5 +110,5 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     backgroundColor: '#018440',  // This sets the indicator color
     height: 3,  // Sets the height of the indicator
     borderRadius: 15,
-  }
+  },
 });
