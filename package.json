@@ -22,8 +22,10 @@
     "expo": "^25.0.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-fontawesome": "^5.7.0",
     "react-native-gesture-handler": "^1.0.0-alpha.41",
     "react-native-tab-view": "0.0.74",
+    "react-native-vector-icons": "^4.5.0",
     "watchman": "^1.0.0"
   }
 }

@@ -1,8 +1,15 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
+import { Font, AppLoading } from 'expo';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons';
+
+import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
+import AppHeader from './src/components/app-header/AppHeader';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
 import Program from './src/components/program/Program';
+import ListViewDemo from './src/components/listView/ListViewDemo';
 
 const initialLayout = {
   height: 0,
@@ -10,82 +17,100 @@ const initialLayout = {
 };
  
 const FirstRoute = () => 
-  <View style={[ styles.container, { backgroundColor: '#ff4081' } ]}>
-    <Speaker 
-      //source='/home/robert/Documents/project_energy/src/components/speakers/putin.jpeg'
-      description='This is Valdimir Putin, he is president in Russia.' />
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Program'/>
+   <ListViewDemo />
   </View>;
-const SecondRoute = () => 
-<View style={[ styles.container, { backgroundColor: '#673ab7' } ]}>
-  <Program/>
-</View>
-;
-
-let numberOne = '1';
-let numberTwo = '2';
-let numberThree = '3';
-
+const SecondRoute = () =>
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Speakers'/>
+  </View>;
+const ThirdRoute = () => 
+  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+    <AppHeader headerText='Information'/>
+  </View>;
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
 
   state = {
+    fontLoaded: false,
     index: 0,
+    //This is where you name your routes/tabs and pass props like icons.
     routes: [
-      { key: 'first', title: 'First' },
-      { key: 'second', title: 'Second' },
+      { key: 'first', title: 'Program', icon: <FontAwesome>{Icons.calendarO}</FontAwesome>},
+      { key: 'second', title: 'Speakers', icon: <FontAwesome>{Icons.userCircle}</FontAwesome>},  // Here you decide the title of the tab and the icon
+      { key: 'third', title: 'Info', icon: <FontAwesome>{Icons.infoCircle}</FontAwesome>},
     ],
   };
 
+  // This method runs as soon as the component has been loaded
+  async componentDidMount(){
+    // This is where you load custom fonts. You can see a clear pattern.
+    await Expo.Font.loadAsync({
+      RalewayMedium: require('./assets/fonts/Raleway/Raleway-Medium.ttf'),
+      RobotoMono: require('./assets/fonts/Roboto_Mono/RobotoMono-Medium.ttf'),
+      PatuaOne: require('./assets/fonts/Patua_One/PatuaOne-Regular.ttf'),
+      FontAwesome: require('./assets/fonts/FontAwesome.ttf'),
+    }); 
+    this.setState({ fontLoaded: true });
+  }
+  
   _handleIndexChange = index => this.setState({ index });
  
-  _renderHeader = props => <TabBar {...props} />;
- 
+  _renderFooter = props => <TabBar
+                             style={styles.tabs} 
+                             indicatorStyle={styles.tabIndicatorStyle} 
+                             labelStyle={styles.tabLabelStyle}
+                             renderIcon={this._renderIcon(props)}
+                             {...props} 
+                            />;
+  // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
+    third: ThirdRoute,
   });
 
 
+  _renderIcon = (props) => ({ route, index }) => {
+    return <Text>{route.icon}</Text>
+  }
+
   render() {  // Every component needs a render method that returns the JSX you want to display
-
-
+    if (!this.state.fontLoaded) {
+      return <AppLoading />;  // render some progress indicator
+    }
     return (
-      <TabViewAnimated
-        style={styles.container}
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderHeader={this._renderHeader}
-        onIndexChange={this._handleIndexChange}
-        initialLayout={initialLayout}
-      />
-
-      // <View style={styles.container}>
-      //   <Text style={styles.text}>This is the App.js</Text>
-      //   {/* 
-      //     This is how to comment inside the return function
-      //     Below is a typical usage of a component we created (Speaker)
-      //     The prop speakerNumber is passed to give each speaker-component individuallity
-      //   */}
-      //   <Speaker style={styles.speaker} id='speaker-one' speakerNumber = {numberOne}/>
-      //   <Speaker style={styles.speaker} id='speaker-two' speakerNumber = {numberTwo}/>
-      //   <Speaker style={styles.speaker} id='speaker-three' speakerNumber = {numberThree}/>
-      //   <Text style={styles.text}>Merry Christmas!</Text>
-      //   <Program/>
-      // </View>
+      <View style={styles.container}>
+        <StatusBarPusher/>
+        <TabViewAnimated
+          navigationState={this.state}
+          renderScene={this._renderScene}
+          renderFooter={this._renderFooter}
+          onIndexChange={this._handleIndexChange}
+          initialLayout={initialLayout}
+        />
+      </View>
     );
   }
 }
 
+
+const win = Dimensions.get('window');  // Gets the device window for reference
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // height: '100%',
-    // width: '100%',
-    // backgroundColor: 'green',  // Used ugly colors to make things clear and visible
     flex: 1,
   },
-  text: {
-    color: 'white',
+  tabs: {  // Styles for the tab boxes
+    backgroundColor: '#e6e6ec',
+  },
+  tabLabelStyle: {  // Styles for the tabs label text
+    color: '#2a2d22',
+    fontFamily: 'PatuaOne',
+  },
+  tabIndicatorStyle: {  // Styles for the current tab indicator
+    backgroundColor: '#018440',  // This sets the indicator color
+    height: 3,  // Sets the height of the indicator
+    borderRadius: 15,
   },
 });
