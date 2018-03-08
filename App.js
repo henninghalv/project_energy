@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions  } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
 import Program from './src/components/program/Program';
@@ -9,8 +9,17 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
  
-const FirstRoute = () => <View style={[ styles.container, { backgroundColor: '#ff4081' } ]} />;
-const SecondRoute = () => <View style={[ styles.container, { backgroundColor: '#673ab7' } ]} />;
+const FirstRoute = () => 
+  <View style={[ styles.container, { backgroundColor: '#ff4081' } ]}>
+    <Speaker 
+      //source='/home/robert/Documents/project_energy/src/components/speakers/putin.jpeg'
+      description='This is Valdimir Putin, he is president in Russia.' />
+  </View>;
+const SecondRoute = () => 
+<View style={[ styles.container, { backgroundColor: '#673ab7' } ]}>
+  <Program/>
+</View>
+;
 
 let numberOne = '1';
 let numberTwo = '2';

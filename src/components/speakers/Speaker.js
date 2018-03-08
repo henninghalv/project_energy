@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native'; //Remember to import the right components!
+import { Text, Button, View, StyleSheet, ListView, Image} from 'react-native'; //Remember to import the right components!
+
+let src = require('/home/robert/Documents/project_energy/src/components/speakers/putin.jpeg')
 
 export default class Speaker extends Component { //Remember to give the class the right name!
 	render() {
 		return (
-			<View style={styles.speaker}>
-			{/* 
-          Props are the parameters passed to this component when they are used/created. See App.js.
-        */}
-				<Text style={styles.text}>This is Speaker-Component number {this.props.speakerNumber}</Text>  
+			<View>
+				<Image source={src}/>
+				<Text> {this.props.description} </Text>  
 			</View>
 		);
 	}
