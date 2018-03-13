@@ -18,8 +18,8 @@ const initialLayout = {
  
 const FirstRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Program'/>
-   <ListViewDemo />
+    <AppHeader headerText='Program' enableStar='true'/>
+    <ListViewDemo />
   </View>;
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>

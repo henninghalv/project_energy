@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Button, View, StyleSheet, ListView, Image} from 'react-native'; //Remember to import the right components!
 
-let src = require('/home/robert/Documents/project_energy/src/components/speakers/putin.jpeg')
+let src = require('./putin.jpeg')
 
 export default class Speaker extends Component { //Remember to give the class the right name!
 	render() {
