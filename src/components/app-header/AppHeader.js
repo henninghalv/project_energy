@@ -1,6 +1,7 @@
 import React, { Component } from 'react';  // This has to be imported in every component
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
+import { LinearGradient } from 'expo';
 
 // You have to export the Component so that it can be used by other components, especially App.js
 export default class AppHeader extends Component { // Remember to give the component the right name!
@@ -43,11 +44,11 @@ export default class AppHeader extends Component { // Remember to give the compo
       </View>
 		return (
 			//TODO: Fix this, now there is an invisible star that aligns the header
-			<View style={styles.viewStyles}>
+			<LinearGradient colors={['forestgreen', 'rgb(80,182,100)']} style={styles.viewStyles}>
         {hiddenStar}
 				<Text style={styles.textStyles}>{this.props.headerText}</Text>
 				{this.props.isProgramTab ? star : hiddenStar}
-			</View>
+			</LinearGradient>
 		);
 	}
 }
@@ -66,17 +67,18 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
   	fontFamily: 'RalewayMedium',
 	  textAlign: 'center',
     color: 'whitesmoke',
-    marginVertical: 8,
+    marginVertical: 4,
 	},
 	
   favoriteIconWrapper: {
 	  justifyContent:'center',
-	  alignItems: 'center'
+    alignItems: 'center',
   },
 
   favoriteIcon: {
 	  fontSize: 28,
-		color: 'white',
+    color: 'white',
+    padding: 5,
 	},
   
   hiddenIcon: {

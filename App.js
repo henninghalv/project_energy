@@ -11,6 +11,7 @@ import Speaker from './src/components/speakers/Speaker';  //This is an example o
 import Program from './src/components/program/Program';
 import SpeakerListView from './src/components/listView/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
+import InformationView from './src/components/information/InformationView';
 
 const initialLayout = {
   height: 0,
@@ -20,16 +21,17 @@ const initialLayout = {
 const FirstRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Program' isProgramTab={true}/>
-    <ProgramListView />
+    <ProgramListView/>
   </View>;
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Speakers'/>
-    <SpeakerListView />
+    <SpeakerListView/>
   </View>;
 const ThirdRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Information'/>
+    <InformationView/>
   </View>;
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
