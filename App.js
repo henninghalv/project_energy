@@ -19,7 +19,7 @@ const initialLayout = {
  
 const FirstRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Program'/>
+    <AppHeader headerText='Program' isProgramTab={true}/>
     <ProgramListView />
   </View>;
 const SecondRoute = () =>
@@ -101,7 +101,7 @@ export default class App extends Component {  // This is where you name the comp
 const win = Dimensions.get('window');  // Gets the device window for reference
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
-    flex: 1,
+    flex: 1
   },
   tabs: {  // Styles for the tab boxes
     backgroundColor: '#e6e6ec',
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
   tabLabelStyle: {  // Styles for the tabs label text
     color: '#2a2d22',
     fontFamily: 'PatuaOne',
+    fontSize: 12
   },
   tabIndicatorStyle: {  // Styles for the current tab indicator
     backgroundColor: '#018440',  // This sets the indicator color
