@@ -14,8 +14,8 @@ export default class ProgramRow extends Component {
 
 		this.state = {
             expanded: false,
+            type: 'none',
             checked: false,
-            type: 'workshop',
             data: props
 		}
 	}
@@ -52,8 +52,6 @@ export default class ProgramRow extends Component {
         else if(this.state.data.gender == 'food'){
             return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
         }
-
-        
     }
     render () { 
 
@@ -96,7 +94,6 @@ export default class ProgramRow extends Component {
                                     </Text>
                                 </TouchableOpacity>
                             </View>
-                        
                         </View>
                         <Text> {icon} </Text>
                     </View>
