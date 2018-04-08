@@ -16,6 +16,7 @@ export default class ProgramListView extends Component { // Remember to give the
     }; 
   } 
 
+
   render () { 
     return ( 
       <ImageBackground
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     flex: 1,
     paddingHorizontal: 5,
     paddingVertical: 5,
-    // backgroundColor: 'whitesmoke',
   },
   backgroundImage: {
     flex: 1,
