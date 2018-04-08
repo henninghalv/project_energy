@@ -20,12 +20,12 @@ class SpeakerPanel extends Component{
     }
 
     toggle(){
-    let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
-        finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+        let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
+            finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
 
-    this.setState({
-        expanded : !this.state.expanded 
-    });
+        this.setState({
+            expanded : !this.state.expanded 
+        });
 
     this.state.animation.setValue(initialValue);  
     Animated.spring(    

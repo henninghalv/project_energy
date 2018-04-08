@@ -14,11 +14,9 @@ export default class ProgramRow extends Component {
 
     onRowPress = () => {
         if(this.state.expanded){
-            //TODO: Collapse
             this.setState({expanded: false})
         }
         else{
-            //TODO: Open
             this.setState({expanded: true})
         }
     }
@@ -28,12 +26,15 @@ export default class ProgramRow extends Component {
             <View>
                 <TouchableOpacity onPress={this.onRowPress}>
                     <View style={styles.rowStyle}>
-                        <Image source={{uri: this.state.data.picture.large}} style = {styles.programImage}/>
+                        {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
+                        <Image
+                            source={require('../../../assets/icons/KeyNote-icon.png')}
+                            style={styles.imageIconStyles}
+                        />
                         <Text style={styles.programText}>
-                            Gender: {`${this.state.data.gender}`} {"\n"}
-                            Username: {`${this.state.data.login.username}`} {"\n"}
-                            Password: {`${this.state.data.login.password}`}
-                        
+                            Title: {`${this.state.data.gender}`} {"\n"}
+                            Lead by: {`${this.state.data.login.username}`} {"\n"}
+                            Type: {`${this.state.data.login.password}`}
                         </Text>
                         <View style={styles.favoriteIconWrapper}>
                             <TouchableOpacity onPress={this.onStarPress}>
@@ -45,9 +46,9 @@ export default class ProgramRow extends Component {
                     </View>
                 </TouchableOpacity>
                 {isExpanded ? <View >
+                    <Image source={{uri: this.state.data.picture.large}} style = {styles.programImage}/>
                     <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
                 </View> : null}
-                
             </View>
             
         );
@@ -64,6 +65,15 @@ export default class ProgramRow extends Component {
         borderWidth: 0.3,
         marginVertical: 5,
         paddingVertical: 5,
+    },
+
+    keynoteIcon: {
+        fontSize: 42,
+    },
+
+    imageIconStyles: {
+        width: 80,
+        height: 80,
     },
 
     programImage: {
@@ -84,13 +94,14 @@ export default class ProgramRow extends Component {
 
     favoriteIconWrapper: {
         justifyContent:'center',
-      alignItems: 'center',
+        alignItems: 'center',
     },
   
     favoriteIcon: {
         fontSize: 28,
-      color: 'black',
-      padding: 5,
-      },
-   });
+        color: 'black',
+        padding: 5,
+    },
+
+});
 
