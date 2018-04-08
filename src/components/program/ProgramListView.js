@@ -30,7 +30,8 @@ export default class ProgramListView extends Component { // Remember to give the
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
     flex: 1,
-    paddingLeft: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
     backgroundColor: 'whitesmoke',
   },
 });
