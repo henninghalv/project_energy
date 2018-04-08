@@ -14,6 +14,7 @@ export default class ProgramRow extends Component {
 
 		this.state = {
             expanded: false,
+            checked: false,
             type: 'workshop',
             data: props
 		}
@@ -27,6 +28,15 @@ export default class ProgramRow extends Component {
             this.setState({expanded: true})
         }
     }
+
+    onStarPress = () => {
+		if(this.state.checked){
+			this.setState({checked: false})
+		}
+		else{
+			this.setState({checked: true})
+		}
+	}
 
     renderType = () => {
         //TODO: Set the right paramters (not gender)
@@ -46,6 +56,9 @@ export default class ProgramRow extends Component {
         
     }
     render () { 
+
+		const checkedStar = <FontAwesome>{Icons.star}</FontAwesome>
+		const uncheckedStar = <FontAwesome>{Icons.starO}</FontAwesome>
 
         let icon = this.icons['down'];
 
@@ -79,7 +92,7 @@ export default class ProgramRow extends Component {
                             <View style={styles.favoriteIconWrapper}>
                                 <TouchableOpacity onPress={this.onStarPress}>
                                     <Text style={styles.favoriteIcon}>
-                                        <FontAwesome>{Icons.star}</FontAwesome>
+                                        {this.state.checked ? checkedStar : uncheckedStar}
                                     </Text>
                                 </TouchableOpacity>
                             </View>
