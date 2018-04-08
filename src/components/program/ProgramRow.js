@@ -71,10 +71,10 @@ export default class ProgramRow extends Component {
                             <Text style={styles.programText}>
                                 Title: {`${this.state.data.gender}`} {"\n"}
                                 Speaker: {`${this.state.data.login.username}`} {"\n"}
-                                <FontAwesome>{Icons.mapMarker}</FontAwesome>
-                                {"  KA-ABC001  "}
                                 <FontAwesome>{Icons.clockO}</FontAwesome>
-                                {"  14:00 - 14:15  "}
+                                {"  14:00 - 14:15  "}  {"\n"}
+                                <FontAwesome>{Icons.mapMarker}</FontAwesome>
+                                {"  KA-ABC001  "} 
                             </Text>
                             <View style={styles.favoriteIconWrapper}>
                                 <TouchableOpacity onPress={this.onStarPress}>
@@ -88,7 +88,7 @@ export default class ProgramRow extends Component {
                         <Text> {icon} </Text>
                     </View>
                     {isExpanded ? <View style={styles.centerArrow}>
-                        <View>
+                        <View style={styles.infoText}>
                             <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
                         </View>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
@@ -103,8 +103,8 @@ export default class ProgramRow extends Component {
    const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
     wrapper : {
         borderWidth: 0.3,
-        margin: 10,
-        padding: 15,
+        margin: 8,
+        padding: 5,
     },
     
     centerArrow: {
@@ -115,40 +115,22 @@ export default class ProgramRow extends Component {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center', 
-        paddingHorizontal: 5,
-        //borderWidth: 0.3,
         marginVertical: 5,
-        paddingVertical: 5,
     },
-
-    outerView: {
-        //alignItems: 'center', 
-        borderWidth: 0.3
-    },
-
     keynoteIcon: {
         fontSize: 80,
     },
-
     imageIconStyles: {
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
     },
-
-    programImage: {
-        //flex: 1,
-        height: 70,
-        borderRadius: 35,
-        width: 70,
-        marginHorizontal: 5,
-    },
-
     programText:{
         flex: 3,
-        lineHeight: 14,  //Set this to the same as font size
-        fontSize: 14,
+        lineHeight: 15,  //Set this to the same as font size
+        fontSize: 15,
         fontFamily: 'RalewayMedium',
-        marginHorizontal: 5,
+        marginHorizontal: 8,
+        marginTop: 4
     },
 
     favoriteIconWrapper: {
@@ -161,9 +143,9 @@ export default class ProgramRow extends Component {
         color: 'black',
         padding: 5,
     },
+
     infoText: {
-
-    },
-
+        margin: 5
+    }
 });
 

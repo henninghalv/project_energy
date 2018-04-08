@@ -2,7 +2,6 @@ import React, { Component } from 'react';  // This has to be imported in every c
 import { StyleSheet, View, ListView, Text, Image, Platform} from 'react-native';
 import SpeakerPanel from './SpeakerPanel';
 
-let src = require('./putin.jpeg');
 
 const SpeakerRow = (props) => {
     return (
