@@ -71,8 +71,8 @@ export default class App extends Component {  // This is where you name the comp
                             />;
   // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
+    first: SecondRoute,
+    second: FirstRoute,
     third: ThirdRoute,
   });
 

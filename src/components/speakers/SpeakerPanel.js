@@ -13,8 +13,9 @@ class SpeakerPanel extends Component{
         this.state = {    
             title       : props.title,
             imagesource : props.imagesource,
+            info        : props.info,
             expanded    : false,
-            animation   : new Animated.Value(50)
+            animation   : new Animated.Value(80)
         };
     }
 
@@ -33,7 +34,6 @@ class SpeakerPanel extends Component{
             toValue: finalValue
         }
     ).start(); 
-        
     }
 
     render(){
@@ -45,7 +45,6 @@ class SpeakerPanel extends Component{
 
         return ( 
             <Animated.View style={[styles.container,{height: this.state.animation}]}>
-                <View style={styles.container} >
                     <TouchableOpacity 
                         style={styles.button} 
                         onPress={this.toggle.bind(this)}
@@ -53,18 +52,13 @@ class SpeakerPanel extends Component{
                             <View style={styles.titleContainer} onLayout={this._setMinHeight.bind(this)}>
                                 <Image source={this.state.imagesource} style = {styles.SpeakerImage}/>
                                 <Text style={styles.title}>{this.state.title}</Text>
-                                <Image
-                                    style={styles.buttonImage}
-                                    source={icon}
-                                ></Image>
+                                <Image style={styles.buttonImage} source={icon}></Image>
                             </View>
+                            {this.state.expanded ? <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
+                                {this.props.children}
+                                <Text style={styles.infoText}>{this.state.info}</Text>
+                        </View> : null}
                     </TouchableOpacity>
-                    {this.state.expanded ? <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
-                        {this.props.children}
-                        <Text>This speakers nationailty is: {this.props.nat} {'\n'}And some more info here</Text>
-                    </View> : null}
-                    
-                </View>
             </Animated.View>
         );
     }
@@ -82,26 +76,32 @@ class SpeakerPanel extends Component{
     }
 }
 
-
-
 var styles = StyleSheet.create({
     container   : {
-        margin:10,
-        overflow:'hidden'
+        margin:8,
+        overflow:'hidden',
+        backgroundColor: "purple",
     },
     titleContainer : {
         flexDirection: 'row'
     },
     title       : {
-        flex    : 1,
-        padding : 10,
+        flex    : 2,
         color   :'#2a2f43',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        fontSize: 18,
+        margin: 15
+    },
+    infoText : {
+        fontSize: 18,
     },
     button      : {
-
+        display: 'flex',
+        //alignItems: 'center',
+        backgroundColor : 'green',
     },
     buttonImage : {
+        marginTop: 20,
         width   : 30,
         height  : 25
     },
@@ -110,9 +110,9 @@ var styles = StyleSheet.create({
         paddingTop  : 0
     },
     SpeakerImage: {
-        height: 40,
-        borderRadius: 20,
-        width: 40
+        height: 80,
+        borderRadius: 40,
+        width: 80
     },
 });
 

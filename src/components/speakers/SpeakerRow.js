@@ -4,12 +4,14 @@ import SpeakerPanel from './SpeakerPanel';
 
 let src = require('./putin.jpeg');
 
-var Accordion = require('react-native-accordion-met');
-
 const SpeakerRow = (props) => {
     return (
         <View>
-            <SpeakerPanel title = {`${props.name.first} ${props.name.last} \n` } imagesource = {{uri: props.picture.large}} expanded = {false}>
+            <SpeakerPanel 
+                title = {`${props.name.first} ${props.name.last} (${props.nat}) \n` } 
+                info = {props.info}
+                imagesource = {{uri: props.picture.large}} 
+                expanded = {false}>
             </SpeakerPanel>
         </View>
     );
