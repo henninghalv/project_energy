@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Button, Image, TouchableOpacity, Alert } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { Font, AppLoading } from 'expo';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -8,7 +8,6 @@ import Icon from 'react-native-vector-icons';
 import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
 import AppHeader from './src/components/app-header/AppHeader';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
-import Program from './src/components/program/Program';
 import SpeakerListView from './src/components/speakers/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
 import SpeakerPanelListView from './src/components/speakers/SpeakerPanelListView';
@@ -68,14 +67,14 @@ export default class App extends Component {  // This is where you name the comp
                              labelStyle={styles.tabLabelStyle}
                              renderIcon={this._renderIcon(props)}
                              {...props} 
-                            />;
+                            />
+                            
   // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
     third: ThirdRoute,
   });
-
 
   _renderIcon = (props) => ({ route, index }) => {
     return <Text>{route.icon}</Text>
@@ -88,18 +87,17 @@ export default class App extends Component {  // This is where you name the comp
     return (
       <View style={styles.container}>
         <StatusBarPusher/>
-        <TabViewAnimated
-          navigationState={this.state}
-          renderScene={this._renderScene}
-          renderFooter={this._renderFooter}
-          onIndexChange={this._handleIndexChange}
-          initialLayout={initialLayout}
-        />
+          <TabViewAnimated
+            navigationState={this.state}
+            renderScene={this._renderScene}
+            renderFooter={this._renderFooter}
+            onIndexChange={this._handleIndexChange}
+            initialLayout={initialLayout}
+          />
       </View>
     );
   }
 }
-
 
 const win = Dimensions.get('window');  // Gets the device window for reference
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
