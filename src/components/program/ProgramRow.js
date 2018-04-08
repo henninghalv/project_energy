@@ -8,6 +8,7 @@ export default class ProgramRow extends Component {
 		super(props)
 		this.state = {
             expanded: false,
+            type: 'workshop',
             data: props
 		}
 	}
@@ -20,21 +21,46 @@ export default class ProgramRow extends Component {
             this.setState({expanded: true})
         }
     }
+
+    renderType = () => {
+        //TODO: Set the right paramters (not gender)
+        if(this.state.data.gender == 'female'){
+            return <Image source={require('../../../assets/icons/Cogs-icon.png')} style={styles.imageIconStyles}/>
+        }    
+        else if(this.state.data.gender == 'male'){
+            return <Image source={require('../../../assets/icons/KeyNote-icon.png')} style={styles.imageIconStyles}/>
+        }
+        else if(this.state.data.gender == 'refresh'){
+            return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
+        }
+        else if(this.state.data.gender == 'food'){
+            return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
+        }
+
+        
+    }
     render () { 
         const isExpanded = this.state.expanded; 
+        const type = this.renderType()
         return (
             <View>
                 <TouchableOpacity onPress={this.onRowPress}>
                     <View style={styles.rowStyle}>
                         {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
-                        <Image
+                       
+                        {/* <Image
                             source={require('../../../assets/icons/KeyNote-icon.png')}
                             style={styles.imageIconStyles}
-                        />
+                        /> */}
+                        
+                        {type}
                         <Text style={styles.programText}>
                             Title: {`${this.state.data.gender}`} {"\n"}
-                            Lead by: {`${this.state.data.login.username}`} {"\n"}
-                            Type: {`${this.state.data.login.password}`}
+                            Speaker: {`${this.state.data.login.username}`} {"\n"}
+                            <FontAwesome>{Icons.mapMarker}</FontAwesome>
+                            {"  KA-ABC001  "}
+                            <FontAwesome>{Icons.clockO}</FontAwesome>
+                            {"  14:00 - 14:15  "}
                         </Text>
                         <View style={styles.favoriteIconWrapper}>
                             <TouchableOpacity onPress={this.onStarPress}>
@@ -68,7 +94,7 @@ export default class ProgramRow extends Component {
     },
 
     keynoteIcon: {
-        fontSize: 42,
+        fontSize: 80,
     },
 
     imageIconStyles: {

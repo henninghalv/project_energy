@@ -37,7 +37,7 @@ export default data = [
       "nat": "US"
     },
     {
-      "gender": "male",
+      "gender": "food",
       "name": {
         "title": "mr",
         "first": "joseph",
@@ -148,7 +148,7 @@ export default data = [
       "nat": "US"
     },
     {
-      "gender": "male",
+      "gender": "refresh",
       "name": {
         "title": "mr",
         "first": "lloyd",
