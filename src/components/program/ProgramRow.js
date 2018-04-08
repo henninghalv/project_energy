@@ -58,34 +58,35 @@ export default class ProgramRow extends Component {
         return (
             <View style={styles.outerView}>
                 <TouchableOpacity onPress={this.onRowPress}>
-                    <View style={styles.rowStyle}>
-                        {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
+                    <View style={styles.centerArrow}>
+                        <View style={styles.rowStyle}>
+                            {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
                        
-                        {/* <Image
-                            source={require('../../../assets/icons/KeyNote-icon.png')}
-                            style={styles.imageIconStyles}
-                        /> */}
+                            {/* <Image
+                                source={require('../../../assets/icons/KeyNote-icon.png')}
+                                style={styles.imageIconStyles}
+                            /> */}
                         
-                        {type}
-                        <Text style={styles.programText}>
-                            Title: {`${this.state.data.gender}`} {"\n"}
-                            Speaker: {`${this.state.data.login.username}`} {"\n"}
-                            <FontAwesome>{Icons.mapMarker}</FontAwesome>
-                            {"  KA-ABC001  "}
-                            <FontAwesome>{Icons.clockO}</FontAwesome>
-                            {"  14:00 - 14:15  "}
-                        </Text>
-                        <View style={styles.favoriteIconWrapper}>
-                            <TouchableOpacity onPress={this.onStarPress}>
-                                <Text style={styles.favoriteIcon}>
-                                    <FontAwesome>{Icons.star}</FontAwesome>
-                                </Text>
-                            </TouchableOpacity>
+                            {type}
+                            <Text style={styles.programText}>
+                                Title: {`${this.state.data.gender}`} {"\n"}
+                                Speaker: {`${this.state.data.login.username}`} {"\n"}
+                                <FontAwesome>{Icons.mapMarker}</FontAwesome>
+                                {"  KA-ABC001  "}
+                                <FontAwesome>{Icons.clockO}</FontAwesome>
+                                {"  14:00 - 14:15  "}
+                            </Text>
+                            <View style={styles.favoriteIconWrapper}>
+                                <TouchableOpacity onPress={this.onStarPress}>
+                                    <Text style={styles.favoriteIcon}>
+                                        <FontAwesome>{Icons.star}</FontAwesome>
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        
                         </View>
                         <Text> {icon} </Text>
                     </View>
-                
-                
                     {isExpanded ? <View style={styles.centerArrow}>
                         <View>
                             <Image source={{uri: this.state.data.picture.large}} style = {styles.programImage}/>
