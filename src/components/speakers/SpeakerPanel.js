@@ -14,25 +14,25 @@ class SpeakerPanel extends Component{
             title       : props.title,
             imagesource : props.imagesource,
             expanded    : false,
-            animation   : new Animated.Value(50)
+            animation   : new Animated.Value(50),
         };
     }
 
     toggle(){
-    let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
-        finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+        let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
+            finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
 
-    this.setState({
-        expanded : !this.state.expanded 
-    });
+        this.setState({
+            expanded : !this.state.expanded 
+        });
 
-    this.state.animation.setValue(initialValue);  
-    Animated.spring(    
-        this.state.animation,
-        {
-            toValue: finalValue
-        }
-    ).start(); 
+        this.state.animation.setValue(initialValue);  
+        Animated.spring(    
+            this.state.animation,
+            {
+                toValue: finalValue
+            }
+        ).start(); 
         
     }
 
