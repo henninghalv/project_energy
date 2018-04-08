@@ -45,24 +45,26 @@ class SpeakerPanel extends Component{
 
         return ( 
             <Animated.View style={[styles.container,{height: this.state.animation}]}>
-            <View style={styles.container} >
+                <View style={styles.container} >
                     <TouchableOpacity 
                         style={styles.button} 
                         onPress={this.toggle.bind(this)}
                         underlayColor="#f1f1f1">
-                <View style={styles.titleContainer} onLayout={this._setMinHeight.bind(this)}>
-                    <Image source={this.state.imagesource} style = {styles.SpeakerImage}/>
-                    <Text style={styles.title}>{this.state.title}</Text>
-                        <Image
-                            style={styles.buttonImage}
-                            source={icon}
-                        ></Image>
-                </View>
+                            <View style={styles.titleContainer} onLayout={this._setMinHeight.bind(this)}>
+                                <Image source={this.state.imagesource} style = {styles.SpeakerImage}/>
+                                <Text style={styles.title}>{this.state.title}</Text>
+                                <Image
+                                    style={styles.buttonImage}
+                                    source={icon}
+                                ></Image>
+                            </View>
                     </TouchableOpacity>
-                <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
-                    {this.props.children}
+                    {this.state.expanded ? <View style={styles.body} onLayout={this._setMaxHeight.bind(this)}>
+                        {this.props.children}
+                        <Text>This speakers nationailty is: {this.props.nat} {'\n'}And some more info here</Text>
+                    </View> : null}
+                    
                 </View>
-            </View>
             </Animated.View>
         );
     }

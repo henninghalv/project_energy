@@ -10,7 +10,6 @@ const SpeakerRow = (props) => {
     return (
         <View>
             <SpeakerPanel title = {`${props.name.first} ${props.name.last} \n` } imagesource = {{uri: props.picture.large}} expanded = {false}>
-                <Text>This speakers nationailty is: {props.nat} {'\n'}And some more info here</Text>
             </SpeakerPanel>
         </View>
     );
