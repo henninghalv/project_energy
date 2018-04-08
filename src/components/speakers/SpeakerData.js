@@ -85,7 +85,7 @@ export default data = [
         "medium": "https://randomuser.me/api/portraits/med/men/13.jpg",
         "thumbnail": "https://randomuser.me/api/portraits/thumb/men/13.jpg"
       },
-      "nat": "US"
+      "nat": "NORWAY blablablbalbalabalbalabalabbalbalablabalablabalbal balbalabalbalabal"
     },
     {
       "gender": "female",

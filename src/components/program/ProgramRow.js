@@ -7,7 +7,7 @@ const ProgramRow = (props) => {
         <View style={styles.rowStyle}>
             <Image source={{uri: props.picture.large}} style = {styles.ProgramImage}/>
             <Text >
-                Gender: {`${props.gender}`} {"\n"}
+                Gender: {`${props.gender}`}  {"\n"}
                 Username: {`${props.login.username}`} {"\n"}
                 Password: {`${props.login.password}`}
             </Text>
@@ -17,7 +17,7 @@ const ProgramRow = (props) => {
 
    const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
     rowStyle: {
-        flexDirection: 'row',
+        //flexDirection: 'row',
         justifyContent: 'space-between',
     },
     ProgramImage: {

@@ -9,8 +9,10 @@ import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher'
 import AppHeader from './src/components/app-header/AppHeader';
 import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
 import Program from './src/components/program/Program';
-import SpeakerListView from './src/components/listView/SpeakerListView';
+import SpeakerListView from './src/components/speakers/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
+import SpeakerPanelListView from './src/components/speakers/SpeakerPanelListView';
+
 
 const initialLayout = {
   height: 0,
@@ -25,7 +27,7 @@ const FirstRoute = () =>
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Speakers'/>
-    <SpeakerListView />
+    <SpeakerPanelListView />
   </View>;
 const ThirdRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
