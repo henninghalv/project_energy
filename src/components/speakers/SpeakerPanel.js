@@ -80,7 +80,6 @@ var styles = StyleSheet.create({
     container   : {
         margin:8,
         overflow:'hidden',
-        backgroundColor: "purple",
     },
     titleContainer : {
         flexDirection: 'row'
@@ -98,7 +97,6 @@ var styles = StyleSheet.create({
     button      : {
         display: 'flex',
         //alignItems: 'center',
-        backgroundColor : 'green',
     },
     buttonImage : {
         marginTop: 20,
@@ -110,9 +108,9 @@ var styles = StyleSheet.create({
         paddingTop  : 0
     },
     SpeakerImage: {
-        height: 80,
-        borderRadius: 40,
-        width: 80
+        height: 60,
+        borderRadius: 30,
+        width: 60
     },
 });
 

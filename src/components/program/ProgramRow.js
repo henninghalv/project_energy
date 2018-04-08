@@ -23,7 +23,7 @@ export default class ProgramRow extends Component {
     render () { 
         const isExpanded = this.state.expanded; 
         return (
-            <View>
+            <View style = {styles.wrapper}> 
                 <TouchableOpacity onPress={this.onRowPress}>
                     <View style={styles.rowStyle}>
                         {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
@@ -44,11 +44,10 @@ export default class ProgramRow extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    {isExpanded ? <View >
+                        <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
+                    </View> : null}
                 </TouchableOpacity>
-                {isExpanded ? <View >
-                    <Image source={{uri: this.state.data.picture.large}} style = {styles.programImage}/>
-                    <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
-                </View> : null}
             </View>
             
         );
@@ -56,13 +55,17 @@ export default class ProgramRow extends Component {
     }
 
    const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
+    wrapper : {
+        borderWidth: 0.3,
+        margin: 10,
+        padding: 15,
+    },
     rowStyle: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center', 
         paddingHorizontal: 5,
-        borderWidth: 0.3,
         marginVertical: 5,
         paddingVertical: 5,
     },
@@ -101,6 +104,9 @@ export default class ProgramRow extends Component {
         fontSize: 28,
         color: 'black',
         padding: 5,
+    },
+    infoText: {
+
     },
 
 });
