@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons';
 
 import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
 import AppHeader from './src/components/app-header/AppHeader';
-// import SpeakerListView from './src/components/speakers/SpeakerListView';
+import SpeakerListView from './src/components/speakers/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
 import InformationView from './src/components/information/InformationView';
 
@@ -24,7 +24,7 @@ const FirstRoute = () =>
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Speakers'/>
-    {/* <SpeakerPanelListView /> */}
+    <SpeakerListView />
   </View>;
 const ThirdRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
