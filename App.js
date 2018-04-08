@@ -7,11 +7,8 @@ import Icon from 'react-native-vector-icons';
 
 import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
 import AppHeader from './src/components/app-header/AppHeader';
-import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
-import Program from './src/components/program/Program';
-import SpeakerListView from './src/components/speakers/SpeakerListView';
+// import SpeakerListView from './src/components/speakers/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
-import SpeakerPanelListView from './src/components/speakers/SpeakerPanelListView';
 import InformationView from './src/components/information/InformationView';
 
 const initialLayout = {
@@ -27,7 +24,7 @@ const FirstRoute = () =>
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
     <AppHeader headerText='Speakers'/>
-    <SpeakerPanelListView />
+    {/* <SpeakerPanelListView /> */}
   </View>;
 const ThirdRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>

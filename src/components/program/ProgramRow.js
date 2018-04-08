@@ -14,7 +14,7 @@ export default class ProgramRow extends Component {
 
 		this.state = {
             expanded: false,
-            type: 'workshop',
+            type: 'none',
             data: props
 		}
 	}
@@ -42,8 +42,6 @@ export default class ProgramRow extends Component {
         else if(this.state.data.gender == 'food'){
             return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
         }
-
-        
     }
     render () { 
 
@@ -71,9 +69,9 @@ export default class ProgramRow extends Component {
                             Title: {`${this.state.data.gender}`} {"\n"}
                             Speaker: {`${this.state.data.login.username}`} {"\n"}
                             <FontAwesome>{Icons.mapMarker}</FontAwesome>
-                            {"  KA-ABC001  "}
+                            {"   KA-ABC001\n"}
                             <FontAwesome>{Icons.clockO}</FontAwesome>
-                            {"  14:00 - 14:15  "}
+                            {"  14:00 - 14:15"}
                         </Text>
                         <View style={styles.favoriteIconWrapper}>
                             <TouchableOpacity onPress={this.onStarPress}>
@@ -84,8 +82,6 @@ export default class ProgramRow extends Component {
                         </View>
                         <Text> {icon} </Text>
                     </View>
-                
-                
                     {isExpanded ? <View style={styles.centerArrow}>
                         <View>
                             <Image source={{uri: this.state.data.picture.large}} style = {styles.programImage}/>
@@ -127,8 +123,8 @@ export default class ProgramRow extends Component {
     },
 
     imageIconStyles: {
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
     },
 
     programImage: {
