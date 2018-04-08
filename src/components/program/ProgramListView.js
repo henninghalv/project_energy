@@ -26,10 +26,10 @@ export default class ProgramListView extends Component { // Remember to give the
       >
         <View style={styles.daySelectContainer}>
           <TouchableOpacity style={styles.daySelectButton}>
-            <Text style={styles.buttonText}> Monday </Text> 
+            <Text style={styles.buttonText}> MONDAY </Text> 
           </TouchableOpacity>
           <TouchableOpacity style={styles.daySelectButton}>
-            <Text style={styles.buttonText}> Tuesday </Text>
+            <Text style={styles.buttonText}> TUESDAY </Text>
           </TouchableOpacity>
         </View>
         <ListView 
@@ -59,11 +59,13 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     justifyContent: 'center',
   },
   daySelectButton: {
-    borderWidth: 0.5,
-    marginHorizontal: 20,
+    borderWidth: 0.8,
+    marginHorizontal: 2,
     marginTop: 5,
-    paddingHorizontal: 5,
+    paddingHorizontal: 28,
     paddingVertical: 5,
+    backgroundColor: 'white',
+    opacity: 0.8
   },
   buttonText: {
     fontSize: 24,

@@ -64,10 +64,10 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
 
   textStyles: {
 	  fontSize: 36,
-  	fontFamily: 'RalewayMedium',
+  	fontFamily: 'RobotoMono',
 	  textAlign: 'center',
     color: 'whitesmoke',
-    marginVertical: 4,
+		marginVertical: 4,
 	},
 	
   favoriteIconWrapper: {

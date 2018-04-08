@@ -18,17 +18,17 @@ const initialLayout = {
  
 const FirstRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Program' isProgramTab={true}/>
+    <AppHeader headerText='PROGRAM' isProgramTab={true}/>
     <ProgramListView/>
   </View>;
 const SecondRoute = () =>
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Speakers'/>
+    <AppHeader headerText='SPEAKERS'/>
     <SpeakerListView />
   </View>;
 const ThirdRoute = () => 
   <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Information'/>
+    <AppHeader headerText='INFORMATION'/>
     <InformationView/>
   </View>;
 
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     flex: 1
   },
   tabs: {  // Styles for the tab boxes
-    backgroundColor: '#e6e6ec',
+    backgroundColor: 'whitesmoke',
+    borderTopWidth: 0.2,
   },
   tabLabelStyle: {  // Styles for the tabs label text
     color: '#2a2d22',

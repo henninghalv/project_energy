@@ -115,6 +115,8 @@ export default class ProgramRow extends Component {
         borderWidth: 0.3,
         margin: 8,
         padding: 5,
+        backgroundColor: '#ffffff',
+        opacity: 0.8
     },
     
     centerArrow: {
