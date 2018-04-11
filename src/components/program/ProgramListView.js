@@ -1,7 +1,8 @@
 import React, { Component } from 'react';  // This has to be imported in every component
-import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
+import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity,} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
 import ProgramRow from './ProgramRow';
 import data from './ProgramData';
+import realData from './RealProgramData';
 
 // You have to export the Component so that it can be used by other components, especially App.js
 export default class ProgramListView extends Component { // Remember to give the component the right name!
@@ -9,13 +10,19 @@ export default class ProgramListView extends Component { // Remember to give the
     super (props); 
 
     const ds = new ListView.DataSource({ 
-      rowHasChanged: (r1, r2) => r1 !== r2 }); 
+      rowHasChanged: (r1, r2) => r1 !== r2
+    }); 
 
+    
     this.state = { 
-      dataSource: ds.cloneWithRows(data), 
+      dataSource: ds.cloneWithRows(realData), 
     }; 
+
   } 
 
+  printDataSource(){
+    console.log(this.state.dataSource)
+  }
 
   render () { 
     return ( 
@@ -25,7 +32,7 @@ export default class ProgramListView extends Component { // Remember to give the
         style={styles.backgroundImage}
       >
         <View style={styles.daySelectContainer}>
-          <TouchableOpacity style={styles.daySelectButton}>
+          <TouchableOpacity style={styles.daySelectButton} onPress={this.printDataSource()}>
             <Text style={styles.buttonText}> MONDAY </Text> 
           </TouchableOpacity>
           <TouchableOpacity style={styles.daySelectButton}>
@@ -57,6 +64,7 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingBottom: 5,
   },
   daySelectButton: {
     borderWidth: 0.8,

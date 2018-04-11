@@ -1,74 +1,83 @@
 import React, { Component } from 'react';  // This has to be imported in every component
-import { StyleSheet, View, ListView, Text, Image, TouchableOpacity, Alert} from 'react-native'; 
+import { 
+    StyleSheet,
+    View, 
+    ListView, 
+    Text, 
+    Image, 
+    TouchableOpacity, 
+    Alert, 
+    LayoutAnimation, 
+    Animated, 
+    PanResponder, 
+    UIManager, 
+    Platform, 
+    TouchableWithoutFeedback } from 'react-native'; 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class ProgramRow extends Component {
 
     constructor(props) {
         super(props);
-        
-        this.icons = {     
-            'up'    : null,
-            'down'  : <FontAwesome> {Icons.angleDown} </FontAwesome>
-        };
 
+        //This activates use of animations on android
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+          }
+        
 		this.state = {
             expanded: false,
             type: 'none',
             checked: false,
             data: props
 		}
-	}
+    }
+    
+    componentWillUpdate(){
+        const config = {
+            duration: 300,
+            update: {
+                type: 'easeInEaseOut'
+            }
+        }
+        LayoutAnimation.configureNext(config)
+    }
 
     onRowPress = () => {
-        if(this.state.expanded){
-            this.setState({expanded: false})
-        }
-        else{
-            this.setState({expanded: true})
-        }
+        this.setState({expanded: !this.state.expanded})
     }
 
     onStarPress = () => {
-		if(this.state.checked){
-			this.setState({checked: false})
-		}
-		else{
-			this.setState({checked: true})
-		}
+        this.setState({checked: !this.state.checked})
 	}
 
     renderType = () => {
         //TODO: Set the right paramters (not gender)
-        if(this.state.data.gender == 'female'){
+        if(this.state.data.type == 'workshop'){
             return <Image source={require('../../../assets/icons/Cogs-icon.png')} style={styles.imageIconStyles}/>
         }    
-        else if(this.state.data.gender == 'male'){
+        else if(this.state.data.type == 'keynote'){
             return <Image source={require('../../../assets/icons/KeyNote-icon.png')} style={styles.imageIconStyles}/>
         }
-        else if(this.state.data.gender == 'refresh'){
-            return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
-        }
-        else if(this.state.data.gender == 'food'){
-            return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
-        }
+        // else if(this.state.data.gender == 'refresh'){
+        //     return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
+        // }
+        // else if(this.state.data.gender == 'food'){
+        //     return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
+        // }
     }
+
     render () { 
 
 		const checkedStar = <FontAwesome>{Icons.star}</FontAwesome>
 		const uncheckedStar = <FontAwesome>{Icons.starO}</FontAwesome>
 
-        let icon = this.icons['down'];
-
-        if(this.state.expanded){
-            icon = this.icons['up'];  
-        }
 
         const isExpanded = this.state.expanded; 
         const type = this.renderType()
         return (
             <View style = {styles.wrapper}> 
-                <TouchableOpacity onPress={this.onRowPress}>
+                <TouchableOpacity onPress={this.onRowPress} activeOpacity={1.0}>
                     <View style={styles.centerArrow}>
                         <View style={styles.rowStyle}>
                             {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
@@ -80,8 +89,8 @@ export default class ProgramRow extends Component {
                         
                             {type}
                             <Text style={styles.programText}>
-                                Title: {`${this.state.data.gender}`} {"\n"}
-                                Speaker: {`${this.state.data.login.username}`} {"\n"}
+                                Title: {`${this.state.data.title}`} {"\n"}
+                                Speaker: {`${this.state.data.speaker.firstname}`} {"\n"}
                                 <FontAwesome>{Icons.clockO}</FontAwesome>
                                 {"  14:00 - 14:15  "}  {"\n"}
                                 <FontAwesome>{Icons.mapMarker}</FontAwesome>
@@ -95,11 +104,12 @@ export default class ProgramRow extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Text> {icon} </Text>
+
+                        {!isExpanded ? <Text> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
                     </View>
                     {isExpanded ? <View style={styles.centerArrow}>
                         <View style={styles.infoText}>
-                            <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
+                            <Text>{`${this.state.data.description}`}</Text>
                         </View>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
