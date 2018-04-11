@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  // This has to be imported in every component
-import { StyleSheet, View, ListView, Text, Image, TouchableOpacity, Alert} from 'react-native'; 
+import { StyleSheet, View, ListView, Text, Image, TouchableWithoutFeedback, Alert, TouchableOpacity, LayoutAnimation} from 'react-native'; 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class SpeakerRow extends Component {
@@ -7,17 +7,23 @@ export default class SpeakerRow extends Component {
     constructor(props) {
         super(props);
         
-        this.icons = {     
-            'up'    : null,
-            'down'  : <FontAwesome> {Icons.angleDown} </FontAwesome>
-        };
-
 		this.state = {
             expanded: false,
             type: 'workshop',
             data: props
 		}
 	}
+
+    componentWillUpdate() {
+        const config = {
+            duration: 300, 
+            update: {
+                type: 'easeInEaseOut'
+            }
+        }
+        LayoutAnimation.configureNext(config)
+    }
+
 
     onRowPress = () => {
         if(this.state.expanded){
@@ -47,17 +53,12 @@ export default class SpeakerRow extends Component {
     }
     render () { 
 
-        let icon = this.icons['down'];
-
-        if(this.state.expanded){
-            icon = this.icons['up'];  
-        }
-
         const isExpanded = this.state.expanded; 
         const type = this.renderType()
         return (
             <View style = {styles.wrapper}> 
-                <TouchableOpacity onPress={this.onRowPress}>
+                <TouchableOpacity onPress={this.onRowPress} activeOpacity={1.0}>
+                    <View>
                     <View style={styles.centerArrow}>
                         <View style={styles.rowStyle}>
                             {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
@@ -74,7 +75,7 @@ export default class SpeakerRow extends Component {
                                 Workplace: {`${this.state.data.workplace}`}
                             </Text>
                         </View>
-                        <Text> {icon} </Text>
+                        {!isExpanded ? <Text> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
                     </View>
                     {isExpanded ? <View style={styles.centerArrow}>
                         <View style={styles.infoText}>
@@ -82,6 +83,7 @@ export default class SpeakerRow extends Component {
                         </View>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
+                    </View>
                 </TouchableOpacity>
             </View>
             
