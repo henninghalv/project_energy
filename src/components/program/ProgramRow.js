@@ -28,7 +28,7 @@ export default class ProgramRow extends Component {
 		this.state = {
             expanded: false,
             type: 'none',
-            checked: false,
+            checked: this.props.isFavorite,
             data: props
 		}
     }
@@ -48,7 +48,9 @@ export default class ProgramRow extends Component {
     }
 
     onStarPress = () => {
-        this.setState({checked: !this.state.checked})
+        this.setState({checked: !this.state.checked});
+        console.log("Row ID from ROW:   " + this.props.rowID)
+        this.props.addToFavorites(this.props.rowID);
 	}
 
     renderType = () => {
@@ -92,9 +94,9 @@ export default class ProgramRow extends Component {
                                 Title: {`${this.state.data.title}`} {"\n"}
                                 Speaker: {`${this.state.data.speaker.firstname}`} {"\n"}
                                 <FontAwesome>{Icons.clockO}</FontAwesome>
-                                {"  14:00 - 14:15  "}  {"\n"}
+                                {` ${this.state.data.day} ` + `${this.state.data.timeslot} `}  {"\n"}
                                 <FontAwesome>{Icons.mapMarker}</FontAwesome>
-                                {"  KA-ABC001  "} 
+                                {`  ${this.state.data.location} `} 
                             </Text>
                             <View style={styles.favoriteIconWrapper}>
                                 <TouchableOpacity onPress={this.onStarPress}>
@@ -161,8 +163,8 @@ export default class ProgramRow extends Component {
     },
   
     favoriteIcon: {
-        fontSize: 28,
-        color: 'black',
+        fontSize: 32,
+        color: 'forestgreen',
         padding: 5,
     },
 

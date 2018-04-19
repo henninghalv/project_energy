@@ -14,12 +14,8 @@ export default class AppHeader extends Component { // Remember to give the compo
 	}
 	
 	onStarPress = () => {
-		if(this.state.checked){
-			this.setState({checked: false})
-		}
-		else{
-			this.setState({checked: true})
-		}
+		this.setState({checked: !this.state.checked})
+		this.props.toggleFavorites()
 	}
 
 
@@ -76,13 +72,13 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
   },
 
   favoriteIcon: {
-	  fontSize: 28,
+	  fontSize: 36,
     color: 'white',
     padding: 5,
 	},
   
   hiddenIcon: {
-		fontSize: 28,
+		fontSize: 40,
 		opacity: 0
 	}
 

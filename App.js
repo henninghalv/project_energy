@@ -15,27 +15,37 @@ const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
 };
- 
-const FirstRoute = () => 
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='PROGRAM' isProgramTab={true}/>
-    <ProgramListView/>
-  </View>;
-const SecondRoute = () =>
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='SPEAKERS'/>
-    <SpeakerListView />
-  </View>;
-const ThirdRoute = () => 
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='INFORMATION'/>
-    <InformationView/>
-  </View>;
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
 
+  FirstRoute = () => 
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='PROGRAM' isProgramTab={true} toggleFavorites={this.toggleFavorites}/>
+      <ProgramListView  ref={(ref) => { this.programListViewRef = ref; }}favoritesEnabled={this.state.favoritesEnabled}/>
+    </View>;
+
+  SecondRoute = () =>
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='SPEAKERS'/>
+      <SpeakerListView />
+    </View>;
+
+  ThirdRoute = () => 
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='INFORMATION'/>
+      <InformationView/>
+    </View>;
+
+
+  toggleFavorites = () => {
+    this.setState({favoritesEnabled: !this.state.favoritesEnabled})
+    this.programListViewRef.setState({favoritesEnabled: !this.programListViewRef.state.favoritesEnabled})
+    this.programListViewRef.reRenderListView();
+  }
+
   state = {
     fontLoaded: false,
+    favoritesEnabled: false,
     index: 0,
     //This is where you name your routes/tabs and pass props like icons.
     routes: [
@@ -69,9 +79,9 @@ export default class App extends Component {  // This is where you name the comp
                             
   // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute,
+    first: this.FirstRoute,
+    second: this.SecondRoute,
+    third: this.ThirdRoute,
   });
 
   _renderIcon = (props) => ({ route, index }) => {

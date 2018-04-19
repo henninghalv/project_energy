@@ -137,7 +137,7 @@ export default class SpeakerRow extends Component {
     },
 
     infoText: {
-        margin: 5
+        margin: 5,
     }
 });
 
