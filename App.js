@@ -26,7 +26,7 @@ export default class App extends Component {  // This is where you name the comp
   FirstRoute = () => 
     <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
       <AppHeader headerText='PROGRAM' isProgramTab={true} toggleFavorites={this.toggleFavorites}/>
-      <ProgramListView  ref={(ref) => { this.programListViewRef = ref; }}favoritesEnabled={this.state.favoritesEnabled}/>
+      <ProgramListView  ref={(ref) => { this.programListViewRef = ref; }} favoritesEnabled={this.state.favoritesEnabled}/>
     </View>;
 
   SecondRoute = () =>
@@ -45,6 +45,7 @@ export default class App extends Component {  // This is where you name the comp
     this.setState({favoritesEnabled: !this.state.favoritesEnabled})
     this.programListViewRef.setState({favoritesEnabled: !this.programListViewRef.state.favoritesEnabled})
     this.programListViewRef.reRenderListView();
+    // this.programListViewRef.scrollToTop();
   }
 
   state = {
@@ -73,13 +74,14 @@ export default class App extends Component {  // This is where you name the comp
   
   _handleIndexChange = index => this.setState({ index });
  
-  _renderFooter = props => <TabBar
-                             style={styles.tabs} 
-                             indicatorStyle={styles.tabIndicatorStyle} 
-                             labelStyle={styles.tabLabelStyle}
-                             renderIcon={this._renderIcon(props)}
-                             {...props} 
+  _renderFooter = props =>  <TabBar
+                              style={styles.tabs} 
+                              indicatorStyle={styles.tabIndicatorStyle} 
+                              labelStyle={styles.tabLabelStyle}
+                              renderIcon={this._renderIcon(props)}
+                              {...props} 
                             />
+                           
                             
   // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({

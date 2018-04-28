@@ -57,8 +57,8 @@ export default class ProgramListView extends Component { // Remember to give the
     this.reRenderListView()
   }
 
-  enableFavoriteFilter = () => {
-    this.setState({favoritesEnabled: !this.state.favoritesEnabled})
+  scrollToTop = () => {
+    this.listViewRef.getScrollResponder().scrollTo({x: 0, y: 0, animated: true})
   }
 
   rowGetter = (data, rowID, isFavorite) => {
@@ -116,6 +116,7 @@ export default class ProgramListView extends Component { // Remember to give the
           </TouchableOpacity>
         </View>
         <ListView 
+          ref={(c) => {this.listViewRef = c}}
           style = {styles.container}
           dataSource = { this.state.dataSource } 
           renderRow = {this.renderRow}  
