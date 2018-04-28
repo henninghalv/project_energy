@@ -41,7 +41,6 @@ export default class App extends Component {  // This is where you name the comp
       <InformationView/>
     </View>;
 
-
   toggleFavorites = () => {
     this.setState({favoritesEnabled: !this.state.favoritesEnabled})
     this.programListViewRef.setState({favoritesEnabled: !this.programListViewRef.state.favoritesEnabled})
