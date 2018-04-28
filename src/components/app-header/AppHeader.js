@@ -39,27 +39,38 @@ export default class AppHeader extends Component { // Remember to give the compo
         </TouchableOpacity>
       </View>
 		return (
-			//TODO: Fix this, now there is an invisible star that aligns the header
+			<View>
+			{ this.props.isProgramTab ? 
 			<LinearGradient colors={['forestgreen', 'rgb(80,182,100)']} style={styles.viewStyles}>
         {hiddenStar}
 				<Text style={styles.textStyles}>{this.props.headerText}</Text>
 				{this.props.isProgramTab ? star : hiddenStar}
 			</LinearGradient>
+			: 
+			<LinearGradient colors={['forestgreen', 'rgb(80,182,100)']} style={styles.viewStyles}>
+				<Text style={styles.textStyles}>{this.props.headerText}</Text>
+			</LinearGradient>
+			}
+			</View>
 		);
 	}
 }
 
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
-  viewStyles: {
-      // Here you can write styles for the different components, in this case the View
+
+	viewStyles: {
+			// Here you can write styles for the different components, in this case the View
 	  backgroundColor: 'forestgreen',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-    paddingHorizontal: 10,
+		paddingHorizontal: 10, 
+		paddingRight: 20, 
+		paddingLeft: 20
   },
 
   textStyles: {
-	  fontSize: 36,
+		fontSize: 36,
+		flex: 1, 
   	fontFamily: 'RobotoMono',
 	  textAlign: 'center',
     color: 'whitesmoke',
