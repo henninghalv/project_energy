@@ -13,6 +13,7 @@ import {
     UIManager, 
     Platform, 
     TouchableWithoutFeedback } from 'react-native'; 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class ProgramRow extends Component {
@@ -49,7 +50,6 @@ export default class ProgramRow extends Component {
 
     onStarPress = () => {
         this.setState({checked: !this.state.checked});
-        console.log("Row ID from ROW:   " + this.props.rowID)
         this.props.addToFavorites(this.props.rowID);
 	}
 
@@ -82,13 +82,6 @@ export default class ProgramRow extends Component {
                 <TouchableOpacity onPress={this.onRowPress} activeOpacity={1.0}>
                     <View style={styles.centerArrow}>
                         <View style={styles.rowStyle}>
-                            {/* <FontAwesome style={styles.keynoteIcon}>{Icons.users}</FontAwesome> */}
-                       
-                            {/* <Image
-                                source={require('../../../assets/icons/KeyNote-icon.png')}
-                                style={styles.imageIconStyles}
-                            /> */}
-                        
                             {type}
                             <Text style={styles.programText}>
                                 Title: {`${this.state.data.title}`} {"\n"}
@@ -109,7 +102,8 @@ export default class ProgramRow extends Component {
 
                         {!isExpanded ? <Text> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
                     </View>
-                    {isExpanded ? <View style={styles.centerArrow}>
+                    {isExpanded ? 
+                    <View style={styles.centerArrow}>
                         <View style={styles.infoText}>
                             <Text>{`${this.state.data.description}`}</Text>
                         </View>
@@ -122,7 +116,7 @@ export default class ProgramRow extends Component {
       } 
     }
 
-   const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
+const styles = EStyleSheet.create({  // This is the React Native way to style. This is basically css.
     wrapper : {
         borderWidth: 0.3,
         margin: 8,
@@ -134,6 +128,7 @@ export default class ProgramRow extends Component {
     centerArrow: {
         alignItems: 'center'
     },
+
     rowStyle: {
         display: 'flex',
         flexDirection: 'row',
@@ -141,6 +136,7 @@ export default class ProgramRow extends Component {
         alignItems: 'center', 
         marginVertical: 5,
     },
+
     keynoteIcon: {
         fontSize: 80,
     },
@@ -148,6 +144,7 @@ export default class ProgramRow extends Component {
         width: 60,
         height: 60,
     },
+    
     programText:{
         flex: 3,
         lineHeight: 15,  //Set this to the same as font size
@@ -170,6 +167,19 @@ export default class ProgramRow extends Component {
 
     infoText: {
         margin: 5
-    }
+    },
+
+    '@media (min-width: 0) and (max-width: 320)': {  //If the screen is smaller than 320px in width
+        programText:{
+          fontSize: 12,
+        },
+        programText: {
+          fontSize: 12,
+        },
+        favoriteIcon: {
+            fontSize: 26,
+        },
+
+      }
 });
 

@@ -11,6 +11,11 @@ import SpeakerListView from './src/components/speakers/SpeakerListView';
 import ProgramListView from './src/components/program/ProgramListView';
 import InformationView from './src/components/information/InformationView';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+EStyleSheet.build({}); // always call EStyleSheet.build() even if you don't use global variables!
+
+
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,

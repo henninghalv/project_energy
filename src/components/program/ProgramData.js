@@ -49,6 +49,6 @@ export default data = [
       "day": "Tuesday",
       "timeslot": "14:30-14:40",
       "type": "workshop",
-      "description": "Henning will talk about the Planet melting and stuff that is really important, you guys!"
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt, nunc in pharetra pellentesque, ipsum orci tincidunt enim, sit amet lacinia felis mauris ac mi. Integer ornare fermentum mi, id interdum nunc lobortis a. Quisque faucibus, erat eget pretium dapibus, elit lectus condimentum libero, feugiat tincidunt neque nisi quis dolor. Vivamus aliquet sagittis urna, sed dictum odio placerat vel. Donec sed blandit nisi. Curabitur ut leo commodo, hendrerit elit vitae, scelerisque nunc. Pellentesque nec lorem odio."
   },
 ];
