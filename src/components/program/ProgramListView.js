@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  // This has to be imported in every component
-import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity,} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
+import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity, AsyncStorage} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
 import ProgramRow from './ProgramRow';
 import data from './ProgramData';  
 
@@ -19,8 +19,52 @@ export default class ProgramListView extends Component { // Remember to give the
       tuesdayEnabled: false,
       favoriteEnabled: false,  //This row is favorited
       favoritesEnabled: false,  //The "View favorites" star is checked
-      favorites: []  //List of row ID's
+      favorites: [],  //List of row ID's
+      isLoading: true,
     }; 
+  }
+
+  async componentWillMount () {
+    console.log("COMPONENT WILL MOUNT")
+    try {
+      await AsyncStorage.getItem("favorites").then((value) => {
+        console.log("Async: " + value)
+        if (value != null) {
+          console.log("SETTING STATE")
+          this.setState({"favorites": JSON.parse(value)}, this.setState({isLoading: false}));
+        }
+      }).done();
+    }
+    catch (error) {
+      console.log("Error retrieving data " + error);
+    }
+  }
+
+  componentDidMount() {
+    console.log("COMPONENT DID MOUNT")
+    this.reRenderListView();
+  }
+
+  async saveValue(value){
+    try {
+      await AsyncStorage.setItem("favorites", JSON.stringify(value));
+      console.log(value)
+    } catch (error) {
+      console.log("Error saving data" + error);
+    }
+  }
+
+  async getValue(){
+    try {
+      AsyncStorage.getItem("favorites").then((value) => {
+        console.log(value)
+        this.setState({"favorites": JSON.parse(value)});
+      }).done();
+
+    }
+    catch (error) {
+      console.log("Error retrieving data " + error);
+    }
   }
 
   addToFavorites = (childId) => {
@@ -28,11 +72,27 @@ export default class ProgramListView extends Component { // Remember to give the
       console.log("Adds row " + childId + " to favorites")
       let newFavorites = this.state.favorites;
       newFavorites.push(childId)
-      this.setState({favorites: newFavorites})
+      try{
+        console.log("New favorites: " +newFavorites)
+        this.saveValue(newFavorites)
+        this.setState({'favorites': newFavorites})
+        this.getValue()
+      }  
+      catch (error) {
+        console.log("Error retrieving data" + error)
+      }
     }
     else{
       let newFavorites = this.state.favorites.filter(e => e !== childId)
-      this.setState({favorites: newFavorites})
+      try {
+        this.saveValue(newFavorites)
+        this.setState({favorites: newFavorites})
+        console.log("New favorites: " +newFavorites)
+        
+      }
+      catch (error) {
+        console.log("Error retrieving data" + error);
+      }
     }
   }
   
@@ -71,6 +131,7 @@ export default class ProgramListView extends Component { // Remember to give the
 
   renderRow = (data, sectionID, rowID) => {
     //TODO: Extract to several methods ?
+    console.log("HER ER VI: " + this.state.favorites)
     isFavorite = this.state.favorites.includes(rowID)
     if(this.state.favoritesEnabled){
       if(isFavorite){
@@ -109,7 +170,6 @@ export default class ProgramListView extends Component { // Remember to give the
         source={require('../../../assets/img/banner-done.png')}
         imageStyle={{resizeMode: 'cover'}}
         style={styles.backgroundImage}
-        onLoad={console.log("Hello Loaded")}
       >
         <View style={styles.daySelectContainer}>
           <TouchableOpacity style={this.state.mondayEnabled ? styles.daySelectButtonSelected : styles.daySelectButtonDeSelected} onPress={this.toggleMondayFilter}>
@@ -119,11 +179,13 @@ export default class ProgramListView extends Component { // Remember to give the
             <Text style={this.state.tuesdayEnabled ? styles.buttonTextSelected : styles.buttonTextDeSelected}> TUESDAY </Text>
           </TouchableOpacity>
         </View>
+        {this.state.isLoading ? <Text> Loading... </Text> : 
         <ListView 
           style = {styles.container}
           dataSource = { this.state.dataSource } 
           renderRow = {this.renderRow}  
-        /> 
+        />
+        }
       </ImageBackground>
     ); 
   } 
