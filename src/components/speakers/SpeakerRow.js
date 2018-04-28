@@ -94,7 +94,7 @@ export default class SpeakerRow extends Component {
    const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
     wrapper : {
         borderWidth: 0.3,
-        margin: 8,
+        margin: 5,
         padding: 5,
     },
     
