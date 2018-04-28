@@ -40,7 +40,12 @@ export default class ProgramListView extends Component { // Remember to give the
   async getValue(){
     try {
       await AsyncStorage.getItem("favorites").then((value) => {
-        this.setState({"favorites": JSON.parse(value)}, this.doneLoading);
+        if(value != null){
+          this.setState({"favorites": JSON.parse(value)}, this.doneLoading);
+        }
+        else{
+          this.setState({"favorites": []}, this.doneLoading);
+        }
       }).done();
     }
     catch (error) {
@@ -107,7 +112,6 @@ export default class ProgramListView extends Component { // Remember to give the
 
   renderRow = (data, sectionID, rowID) => {
     //TODO: Extract to several methods ?
-    console.log("HER ER VI: " + this.state.favorites)
     isFavorite = this.state.favorites.includes(rowID)
     if(this.state.favoritesEnabled){
       if(isFavorite){
