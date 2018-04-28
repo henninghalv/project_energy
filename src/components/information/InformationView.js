@@ -4,6 +4,7 @@ import BusInfo from './BusInfo'
 import Sponsors from './Sponsors'
 
 export default class InformationView extends Component { 
+
 	render() {
 		return (
       <ImageBackground
@@ -11,7 +12,7 @@ export default class InformationView extends Component {
         imageStyle={{resizeMode: 'cover'}}
         style={styles.backgroundImage}
       >
-        <View style={styles.viewStyles}>
+        <View style={styles.viewStyles} ref={(c) => {this.listViewRef = c}}>
           <Text style={styles.textStyles}> Hydrogen Fuel Cell Conferance 2018</Text>
           {/* <BusInfo />
           <Sponsors /> */}

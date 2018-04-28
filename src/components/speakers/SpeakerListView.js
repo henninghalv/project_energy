@@ -16,6 +16,9 @@ export default class SpeakerListView extends Component { // Remember to give the
     }; 
   } 
 
+  scrollToTop = () => {
+    this.listViewRef.getScrollResponder().scrollTo({x: 0, y: 0, animated: true})
+  }
 
   render () { 
     return ( 
@@ -25,6 +28,7 @@ export default class SpeakerListView extends Component { // Remember to give the
       style={styles.backgroundImage}
       >
       <ListView 
+        ref={(c) => {this.listViewRef = c}}
         style = {styles.container}
         dataSource = { this.state.dataSource } 
         renderRow = {(data) => <SpeakerRow {...data} />}  

@@ -32,20 +32,19 @@ export default class App extends Component {  // This is where you name the comp
   SecondRoute = () =>
     <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
       <AppHeader headerText='SPEAKERS'/>
-      <SpeakerListView />
+      <SpeakerListView ref={(ref) => { this.speakerListViewRef = ref; }}/>
     </View>;
 
   ThirdRoute = () => 
     <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
       <AppHeader headerText='INFORMATION'/>
-      <InformationView/>
+      <InformationView ref={(ref) => { this.informationRef = ref; }}/>
     </View>;
 
   toggleFavorites = () => {
     this.setState({favoritesEnabled: !this.state.favoritesEnabled})
     this.programListViewRef.setState({favoritesEnabled: !this.programListViewRef.state.favoritesEnabled})
     this.programListViewRef.reRenderListView();
-    // this.programListViewRef.scrollToTop();
   }
 
   state = {
@@ -71,16 +70,30 @@ export default class App extends Component {  // This is where you name the comp
     }); 
     this.setState({ fontLoaded: true });
   }
+
+  scrollToTop = () => {
+    if(this.state.index == 0){
+      this.programListViewRef.scrollToTop()
+    }
+    else if(this.state.index == 1){
+      this.speakerListViewRef.scrollToTop()
+    }
+  }
   
   _handleIndexChange = index => this.setState({ index });
  
-  _renderFooter = props =>  <TabBar
-                              style={styles.tabs} 
-                              indicatorStyle={styles.tabIndicatorStyle} 
-                              labelStyle={styles.tabLabelStyle}
-                              renderIcon={this._renderIcon(props)}
-                              {...props} 
-                            />
+  _renderFooter = (props) => {
+      return (
+          <TabBar
+            style={styles.tabs}
+            indicatorStyle={styles.tabIndicatorStyle}
+            onTabPress={() => this.scrollToTop()}
+            labelStyle={styles.tabLabelStyle}
+            renderIcon={this._renderIcon(props)}
+            {...props} 
+          />
+      )
+  } 
                            
                             
   // Tells the nav bar the order which the tabs should appear
