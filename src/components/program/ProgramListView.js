@@ -46,6 +46,7 @@ export default class ProgramListView extends Component { // Remember to give the
 
   toggleMondayFilter = () => {
     console.log("Monday pushed")
+    {this.state.tuesdayEnabled ? this.setState({tuesdayEnabled: !this.state.tuesdayEnabled}) : null}
     this.setState({mondayEnabled: !this.state.mondayEnabled})
     console.log("Monday enabled:   " + this.state.mondayEnabled)
     this.reRenderListView()
@@ -53,6 +54,7 @@ export default class ProgramListView extends Component { // Remember to give the
 
   toggleTuesdayFilter = () => {
     console.log("Tuesday pushed")
+    {this.state.mondayEnabled ? this.setState({mondayEnabled: !this.state.mondayEnabled}) : null}
     this.setState({tuesdayEnabled: !this.state.tuesdayEnabled})
     console.log("Tuesday enabled:   " + this.state.tuesdayEnabled)
     this.reRenderListView()
