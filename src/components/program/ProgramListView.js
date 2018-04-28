@@ -20,36 +20,18 @@ export default class ProgramListView extends Component { // Remember to give the
       tuesdayEnabled: false,
       favoriteEnabled: false,  //This row is favorited
       favoritesEnabled: false,  //The "View favorites" star is checked
-      favorites: [],  //List of row ID's
+      favorites: this.getValue(),  //List of row ID's
       isLoading: true,
     }; 
   }
 
-  async componentWillMount () {
-    console.log("COMPONENT WILL MOUNT")
-    try {
-      await AsyncStorage.getItem("favorites").then((value) => {
-        console.log("Async: " + value)
-        if (value != null) {
-          console.log("SETTING STATE")
-          this.setState({"favorites": JSON.parse(value)}, this.setState({isLoading: false}));
-        }
-      }).done();
-    }
-    catch (error) {
-      console.log("Error retrieving data " + error);
-    }
-  }
-
-  componentDidMount() {
-    console.log("COMPONENT DID MOUNT")
-    this.reRenderListView();
-  }
+ doneLoading = () => {
+   this.setState({isLoading: false})
+ }
 
   async saveValue(value){
     try {
       await AsyncStorage.setItem("favorites", JSON.stringify(value));
-      console.log(value)
     } catch (error) {
       console.log("Error saving data" + error);
     }
@@ -57,11 +39,9 @@ export default class ProgramListView extends Component { // Remember to give the
 
   async getValue(){
     try {
-      AsyncStorage.getItem("favorites").then((value) => {
-        console.log(value)
-        this.setState({"favorites": JSON.parse(value)});
+      await AsyncStorage.getItem("favorites").then((value) => {
+        this.setState({"favorites": JSON.parse(value)}, this.doneLoading);
       }).done();
-
     }
     catch (error) {
       console.log("Error retrieving data " + error);
@@ -175,7 +155,7 @@ export default class ProgramListView extends Component { // Remember to give the
             <Text style={this.state.tuesdayEnabled ? styles.buttonTextSelected : styles.buttonTextDeSelected}> TUESDAY </Text>
           </TouchableOpacity>
         </View>
-        {this.state.isLoading ? <Text> Loading... </Text> : 
+        {this.state.isLoading ? <Text style={styles.loadingText}> Loading... </Text> : 
         <ListView 
           ref={(c) => {this.listViewRef = c}}
           style = {styles.container}
@@ -230,6 +210,12 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
   },
   buttonTextDeSelected: {
     fontSize: 24,
+    fontFamily: 'PatuaOne',
+    color: '#2a2d22',
+  },
+  loadingText: {
+    textAlign: 'center',
+    fontSize: 28,
     fontFamily: 'PatuaOne',
     color: '#2a2d22',
   },
