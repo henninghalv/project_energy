@@ -15,6 +15,7 @@ import {
     TouchableWithoutFeedback } from 'react-native'; 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FadeInView from 'react-native-fade-in-view';
 
 export default class ProgramRow extends Component {
 
@@ -36,7 +37,7 @@ export default class ProgramRow extends Component {
     
     componentWillUpdate(){
         const config = {
-            duration: 300,
+            duration: 200,
             update: {
                 type: 'easeInEaseOut'
             }
@@ -104,9 +105,9 @@ export default class ProgramRow extends Component {
                     </View>
                     {isExpanded ? 
                     <View style={styles.centerArrow}>
-                        <View style={styles.infoText}>
+                        <FadeInView duration={350} style={styles.infoText}>
                             <Text>{`${this.state.data.description}`}</Text>
-                        </View>
+                        </FadeInView>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
                 </TouchableOpacity>

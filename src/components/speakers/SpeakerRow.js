@@ -1,6 +1,7 @@
-import React, { Component } from 'react';  // This has to be imported in every component
+import React, { Component, Easing, Animated } from 'react';  // This has to be imported in every component
 import { StyleSheet, View, ListView, Text, Image, TouchableWithoutFeedback, Alert, TouchableOpacity, LayoutAnimation} from 'react-native'; 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FadeInView from 'react-native-fade-in-view';
 
 export default class SpeakerRow extends Component {
 
@@ -16,7 +17,7 @@ export default class SpeakerRow extends Component {
 
     componentWillUpdate() {
         const config = {
-            duration: 300, 
+            duration: 200, 
             update: {
                 type: 'easeInEaseOut'
             }
@@ -49,7 +50,7 @@ export default class SpeakerRow extends Component {
             return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
         }
 
-        
+
     }
     render () { 
 
@@ -78,9 +79,9 @@ export default class SpeakerRow extends Component {
                         {!isExpanded ? <Text> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
                     </View>
                     {isExpanded ? <View style={styles.centerArrow}>
-                        <View style={styles.infoText}>
-                            <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo. In hac habitasse platea dictumst. Donec rutrum odio sit amet urna interdum, eget elementum sapien egestas. </Text>
-                        </View>
+                        <FadeInView duration={350} style={styles.infoText}>
+                            <Text>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo.</Text>
+                        </FadeInView>                        
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
                     </View>
