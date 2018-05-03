@@ -13,7 +13,7 @@ export default class InformationView extends Component {
         style={styles.backgroundImage}
       >
         <View style={styles.viewStyles} ref={(c) => {this.listViewRef = c}}>
-          <Text style={styles.textStyles}> Hydrogen Fuel Cell Conferance 2018</Text>
+          <Text style={styles.titleText}> Hydrogen Fuel Cell Conferance 2018</Text>
           {/* <BusInfo />
           <Sponsors /> */}
         </View>
@@ -26,15 +26,18 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
   viewStyles: {
       // Here you can write styles for the different components, in this case the View
   },
-  textStyles: {
-    color: 'black',
-    fontSize: 16,
-    textAlign: 'center',
-  },
 
   backgroundImage: {
     flex: 1,
     width: null,
     height: null,
-},
+  },
+
+  titleText: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontFamily: 'PatuaOne',
+    color: '#2a2d22',
+  },
+
 });

@@ -51,7 +51,7 @@ export default class ProgramRow extends Component {
 
     onStarPress = () => {
         this.setState({checked: !this.state.checked});
-        this.props.addToFavorites(this.props.rowID);
+        this.props.toggleFavorites(this.state.data.title, this.state.data.location, this.state.data.timestamp, this.props.rowID, );
 	}
 
     renderType = () => {
@@ -62,12 +62,12 @@ export default class ProgramRow extends Component {
         else if(this.state.data.type == 'keynote'){
             return <Image source={require('../../../assets/icons/KeyNote-icon.png')} style={styles.imageIconStyles}/>
         }
-        // else if(this.state.data.gender == 'refresh'){
-        //     return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
-        // }
-        // else if(this.state.data.gender == 'food'){
-        //     return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
-        // }
+        else if(this.state.data.gender == 'refresh'){
+            return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
+        }
+        else if(this.state.data.gender == 'food'){
+            return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
+        }
     }
 
     render () { 
@@ -84,14 +84,28 @@ export default class ProgramRow extends Component {
                     <View style={styles.centerArrow}>
                         <View style={styles.rowStyle}>
                             {type}
-                            <Text style={styles.programText}>
-                                Title: {`${this.state.data.title}`} {"\n"}
-                                Speaker: {`${this.state.data.speaker.firstname}`} {"\n"}
-                                <FontAwesome>{Icons.clockO}</FontAwesome>
-                                {` ${this.state.data.day} ` + `${this.state.data.timeslot} `}  {"\n"}
-                                <FontAwesome>{Icons.mapMarker}</FontAwesome>
-                                {`  ${this.state.data.location} `} 
-                            </Text>
+                            <View style={styles.textBoxContainer}>
+                                <View style={styles.textBox}>
+                                    <FontAwesome style={styles.smallIcons}>{Icons.bookmark}</FontAwesome>
+                                    <Text style={styles.programText}>{`${this.state.data.title}`}</Text>
+                                </View>
+
+                                <View style={styles.textBox}>
+                                    <FontAwesome style={styles.smallIcons}>{Icons.userCircleO}</FontAwesome>
+                                    <Text style={styles.programText}>{`${this.state.data.speaker.firstname}`}</Text>
+                                </View>
+
+                                <View style={styles.textBox}>
+                                    <FontAwesome style={styles.smallIcons}>{Icons.clockO}</FontAwesome>
+                                    <Text style={styles.programText}>{`${this.state.data.day}`} {`${this.state.data.timeslot}`}</Text>
+                                </View>
+
+                                <View style={styles.textBox}>
+                                    <FontAwesome style={styles.smallIcons}>{Icons.mapMarker}</FontAwesome>
+                                    <Text style={styles.programText}>{`${this.state.data.location}`}</Text>
+                                </View>
+                            </View>
+
                             <View style={styles.favoriteIconWrapper}>
                                 <TouchableOpacity onPress={this.onStarPress}>
                                     <Text style={styles.favoriteIcon}>
@@ -100,13 +114,13 @@ export default class ProgramRow extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        {!isExpanded ? <Text style={styles.arrow}> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
 
-                        {!isExpanded ? <Text> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
                     </View>
                     {isExpanded ? 
                     <View style={styles.centerArrow}>
-                        <FadeInView duration={350} style={styles.infoText}>
-                            <Text>{`${this.state.data.description}`}</Text>
+                        <FadeInView duration={350} style={styles.infoTextWrapper}>
+                            <Text style={styles.infoText}>{`${this.state.data.description}`}</Text>
                         </FadeInView>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
@@ -120,14 +134,19 @@ export default class ProgramRow extends Component {
 const styles = EStyleSheet.create({  // This is the React Native way to style. This is basically css.
     wrapper : {
         borderWidth: 0.3,
+        borderRadius: 3,
         margin: 5,
         padding: 5,
         backgroundColor: '#ffffff',
-        opacity: 0.8
+        opacity: 0.9
     },
     
     centerArrow: {
-        alignItems: 'center'
+        alignItems: 'center',    
+    },
+
+    arrow: {
+        lineHeight: 10,
     },
 
     rowStyle: {
@@ -141,18 +160,38 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
     keynoteIcon: {
         fontSize: 80,
     },
+
     imageIconStyles: {
         width: 60,
         height: 60,
     },
+
+    iconsWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }, 
+
+    smallIcons: {
+        width: 15,
+        textAlign: 'center',
+    },
     
-    programText:{
+    textBoxContainer: {
         flex: 3,
+        marginLeft: 3,
+        justifyContent: 'center',
+    },
+
+    textBox: {
+        flexDirection: 'row',
+        marginVertical: 1,
+    },
+
+    programText: {
+        fontFamily: 'RalewayMedium',
         lineHeight: 15,  //Set this to the same as font size
         fontSize: 15,
-        fontFamily: 'RalewayMedium',
-        marginHorizontal: 8,
-        marginTop: 4
+        marginLeft: 10,
     },
 
     favoriteIconWrapper: {
@@ -166,20 +205,47 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
         padding: 5,
     },
 
-    infoText: {
+    infoTextWrapper: {
         margin: 5
     },
 
     '@media (min-width: 0) and (max-width: 320)': {  //If the screen is smaller than 320px in width
         programText:{
           fontSize: 12,
-        },
-        programText: {
-          fontSize: 12,
+          lineHeight: 12,  //Set this to the same as font size
         },
         favoriteIcon: {
             fontSize: 26,
         },
+
+      },
+
+      '@media (min-width: 400) and (max-width: 1000)': {  //If the screen is smaller than 320px in width
+        programText:{
+          fontSize: 20,
+          lineHeight: 20,  //Set this to the same as font size
+        },
+
+        favoriteIcon: {
+            fontSize: 40,
+        },
+
+        keynoteIcon: {
+            fontSize: 100,
+        },
+    
+        imageIconStyles: {
+            width: 80,
+            height: 80,
+        },
+
+        infoTextWrapper: {
+            margin: 10,
+        },
+
+        infoText: {
+            fontSize: 18
+        }
 
       }
 });

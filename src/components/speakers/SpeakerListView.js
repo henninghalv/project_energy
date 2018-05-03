@@ -23,7 +23,7 @@ export default class SpeakerListView extends Component { // Remember to give the
   render () { 
     return ( 
       <ImageBackground
-      source={require('../../../assets/inspo/Banner-30opa.png')}
+      source={require('../../../assets/img/banner-done.png')}
       imageStyle={{resizeMode: 'cover'}}
       style={styles.backgroundImage}
       >
@@ -41,11 +41,12 @@ export default class SpeakerListView extends Component { // Remember to give the
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
     flex: 1,
-    paddingLeft: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
   backgroundImage: {
     flex: 1,
     width: null,
     height: null,
-},
+  },
 });

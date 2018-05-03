@@ -1,12 +1,15 @@
 import React, { Component } from 'react';  // This has to be imported in every component
 import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity, AsyncStorage} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {Constants, Permissions, Notifications} from 'expo'
 import ProgramRow from './ProgramRow';
 import data from './ProgramData';  
 
 // You have to export the Component so that it can be used by other components, especially App.js
+
+
 export default class ProgramListView extends Component { // Remember to give the component the right name!
-  
+
 	constructor (props) { 
     super (props); 
     
@@ -20,31 +23,107 @@ export default class ProgramListView extends Component { // Remember to give the
       tuesdayEnabled: false,
       favoriteEnabled: false,  //This row is favorited
       favoritesEnabled: false,  //The "View favorites" star is checked
-      favorites: this.getValue(),  //List of row ID's
+      favorites: this.getFromStorage('favorites'),  //List of row ID's
+      notifications: this.getFromStorage('notifications'),  //Get mapping of notifications to favorites
       isLoading: true,
     }; 
   }
 
- doneLoading = () => {
-   this.setState({isLoading: false})
- }
+  async componentDidMount() {
+    let result = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (Constants.isDevice && result.status === 'granted') {
+      console.log('Notification permissions granted.')
+    }
+  }
 
-  async saveValue(value){
+  // Runs when data is finished loading from AsyncStorage
+  doneLoading = () => {
+    console.log("Running done loading...")
+    this.setState({isLoading: false}, console.log("Done Loading!"))
+  }
+
+  // Setup local noticiations
+  enableNotification = (title, body, timestamp, childId) => {
+    let localNotification = {
+      title: title,
+      body: body, // (string) — body text of the notification.
+      ios: { // (optional) (object) — notification configuration specific to iOS.
+        sound: true // (optional) (boolean) — if true, play a sound. Default: false.
+      },
+    android: // (optional) (object) — notification configuration specific to Android.
+      {
+        sound: true, // (optional) (boolean) — if true, play a sound. Default: false.
+        //icon (optional) (string) — URL of icon to display in notification drawer.
+        color: 'forestgreen', //(optional) (string) — color of the notification icon in notification drawer.
+        priority: 'high', // (optional) (min | low | high | max) — android may present notifications according to the priority, for example a high priority notification will likely to be shown as a heads-up notification.
+        sticky: false, // (optional) (boolean) — if true, the notification will be sticky and not dismissable by user. The notification must be programmatically dismissed. Default: false.
+        vibrate: true // (optional) (boolean or array) — if true, vibrate the device. An array can be supplied to specify the vibration pattern, e.g. - [ 0, 500 ].
+        // link (optional) (string) — external link to open when notification is selected.
+      }
+    };
+    
+    let t = new Date();  // Create a new date that is now
+    console.log("NOW:   " + Date.now())
+    console.log("EVENT:   " + timestamp)
+    let secondsUntilNotify = (timestamp - Date.now()) / 1000;
+    console.log(secondsUntilNotify)
+    if(secondsUntilNotify > 0){
+      t.setSeconds(secondsUntilNotify);  
+      const schedulingOptions = {
+          time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
+          // repeat: 'minute'
+        };
+        
+      Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
+        .then((id) => {
+          let newNotifications = this.state.notifications;
+          newNotifications.push({'rowId': childId, 'notificationId': id})
+          console.log("NEW NOTIFICATIONS:   " + newNotifications)
+          this.saveToStorage('notifications', newNotifications)
+          this.setState({notifications: newNotifications})
+        });
+    }
+    else {
+      //TODO: Handle event been
+      console.log("Event has passed!")
+    }
+    
+  }
+
+  disableNotification = (childId) => {
+    //TODO: Disable notification based on id
+    console.log("DISABLING NOTIFICATION>>>")
+    this.state.notifications.forEach(notification => {
+      console.log("Notification.rowId:   " + notification.rowId)
+      console.log("ChildId:   " + childId)
+      console.log(notification.rowId == childId)
+      if(notification.rowId == childId){
+        console.log("Disable notification:   " + notification.rowId)
+        Notifications.dismissNotificationAsync(notification.notificationId)
+        this.saveToStorage('notifications', this.state.notifications.filter(e => e.rowId !== childId))
+        this.setState({notifications: this.state.notifications.filter(e => e.rowId !== childId)})
+      }
+    });
+  }
+
+  // Save values to AsyncStorage
+  async saveToStorage(name, value){
+    console.log("SAVE>>> name: " + name + " array: " + value);
     try {
-      await AsyncStorage.setItem("favorites", JSON.stringify(value));
+      await AsyncStorage.setItem(name, JSON.stringify(value));
     } catch (error) {
       console.log("Error saving data" + error);
     }
   }
-
-  async getValue(){
+  // Get value from AsyncStorage
+  async getFromStorage(name){
     try {
-      await AsyncStorage.getItem("favorites").then((value) => {
+      await AsyncStorage.getItem(name).then((value) => {
         if(value != null){
-          this.setState({"favorites": JSON.parse(value)}, this.doneLoading);
+          this.setState({[name]: JSON.parse(value)}, this.doneLoading);
         }
         else{
-          this.setState({"favorites": []}, this.doneLoading);
+          this.setState({[name]: []}, this.doneLoading);
         }
       }).done();
     }
@@ -53,32 +132,38 @@ export default class ProgramListView extends Component { // Remember to give the
     }
   }
 
-  addToFavorites = (childId) => {
-    if(!this.state.favorites.includes(childId)){
-      let newFavorites = this.state.favorites;
+  toggleFavorites = (title, location, timestamp, childId) => {
+    if(!this.state.favorites.includes(childId)){  // If not a favorite, add to favorites
+      this.addFavorite(title, location, timestamp, childId)
+    }
+    else{  // If a favorite, remove it
+      this.removeFavorite(childId);
+    }
+  }
+
+  addFavorite = (title, location, timestamp, childId) => {
+    let newFavorites = this.state.favorites;
       newFavorites.push(childId)
       try{
-        console.log("New favorites: " +newFavorites)
-        this.saveValue(newFavorites)
-        this.setState({'favorites': newFavorites})
-        this.getValue()
+        this.saveToStorage('favorites', newFavorites)
+        this.setState({favorites: newFavorites})
+        this.enableNotification("Conference alert!", "Your favorited event: " + title + " starts in 15 minutes at: " + location, timestamp, childId) 
       }  
       catch (error) {
         console.log("Error retrieving data" + error)
       }
-    }
-    else{
-      let newFavorites = this.state.favorites.filter(e => e !== childId)
+  }
+
+  removeFavorite = (childId) => {
+    let newFavorites = this.state.favorites.filter(e => e !== childId)
       try {
-        this.saveValue(newFavorites)
+        this.saveToStorage('favorites', newFavorites)
         this.setState({favorites: newFavorites})
-        console.log("New favorites: " +newFavorites)
-        
+        this.disableNotification(childId)
       }
       catch (error) {
         console.log("Error retrieving data" + error);
       }
-    }
   }
   
   reRenderListView(){
@@ -89,14 +174,12 @@ export default class ProgramListView extends Component { // Remember to give the
   }
 
   toggleMondayFilter = () => {
-    console.log("Monday pushed")
     {this.state.tuesdayEnabled ? this.setState({tuesdayEnabled: !this.state.tuesdayEnabled}) : null}
     this.setState({mondayEnabled: !this.state.mondayEnabled})
     this.reRenderListView()
   }
 
   toggleTuesdayFilter = () => {
-    console.log("Tuesday pushed")
     {this.state.mondayEnabled ? this.setState({mondayEnabled: !this.state.mondayEnabled}) : null}
     this.setState({tuesdayEnabled: !this.state.tuesdayEnabled})
     this.reRenderListView()
@@ -107,7 +190,7 @@ export default class ProgramListView extends Component { // Remember to give the
   }
 
   rowGetter = (data, rowID, isFavorite) => {
-    return <ProgramRow {...data} rowID={rowID} addToFavorites={this.addToFavorites} isFavorite={isFavorite}/>
+    return <ProgramRow {...data} rowID={rowID} toggleFavorites={this.toggleFavorites} isFavorite={isFavorite}/>
   }
 
   renderRow = (data, sectionID, rowID) => {
@@ -142,7 +225,6 @@ export default class ProgramListView extends Component { // Remember to give the
       }
     }
   }
-
 
   render () { 
     return ( 
