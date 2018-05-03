@@ -42,7 +42,7 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
   container: {
     flex: 1,
     paddingHorizontal: 5,
-    paddingVertical: 5,
+    paddingBottom: 5,
   },
   backgroundImage: {
     flex: 1,

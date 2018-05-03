@@ -62,11 +62,14 @@ export default class ProgramRow extends Component {
         else if(this.state.data.type == 'keynote'){
             return <Image source={require('../../../assets/icons/KeyNote-icon.png')} style={styles.imageIconStyles}/>
         }
-        else if(this.state.data.gender == 'refresh'){
+        else if(this.state.data.type == 'refresh'){
             return <Image source={require('../../../assets/icons/Coffee-icon.png')} style={styles.imageIconStyles}/>
         }
-        else if(this.state.data.gender == 'food'){
+        else if(this.state.data.type == 'food'){
             return <Image source={require('../../../assets/icons/Utensils-icon.png')} style={styles.imageIconStyles}/>
+        }
+        else if(this.state.data.type == 'info'){
+            return <Image source={require('../../../assets/icons/Info-icon.png')} style={styles.imageIconStyles}/>
         }
     }
 
@@ -89,11 +92,18 @@ export default class ProgramRow extends Component {
                                     <FontAwesome style={styles.smallIcons}>{Icons.bookmark}</FontAwesome>
                                     <Text style={styles.programText}>{`${this.state.data.title}`}</Text>
                                 </View>
-
+                                {this.state.data.speaker != undefined ?
                                 <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.userCircleO}</FontAwesome>
-                                    <Text style={styles.programText}>{`${this.state.data.speaker.firstname}`}</Text>
+                                    <Text style={styles.programText}>
+                                        {`${this.state.data.speaker.title} `}
+                                        {`${this.state.data.speaker.firstname} `}
+                                        {`${this.state.data.speaker.lastname}`}
+                                    </Text>
                                 </View>
+                                :
+                                null
+                                }
 
                                 <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.clockO}</FontAwesome>
@@ -206,7 +216,7 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
     },
 
     infoTextWrapper: {
-        margin: 5
+        margin: 10
     },
 
     '@media (min-width: 0) and (max-width: 320)': {  //If the screen is smaller than 320px in width
@@ -240,7 +250,7 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
         },
 
         infoTextWrapper: {
-            margin: 10,
+            margin: 15,
         },
 
         infoText: {

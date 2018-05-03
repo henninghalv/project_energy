@@ -66,7 +66,7 @@ export default class SpeakerRow extends Component {
 
                                 <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.globe}</FontAwesome>
-                                    <Text style={styles.speakerText}>{`${this.state.data.nat}`}</Text>
+                                    <Text style={styles.speakerText}>{`${this.state.data.nationality}`}</Text>
                                 </View>
 
                                 <View style={styles.textBox}>
@@ -86,7 +86,7 @@ export default class SpeakerRow extends Component {
                     </View>
                     {isExpanded ? <View style={styles.centerArrow}>
                         <FadeInView duration={350} style={styles.infoTextWrapper}>
-                            <Text style={styles.infoText}>Nulla sodales lectus neque, non lacinia nisi congue at. Aenean vitae augue a ante condimentum placerat. Vestibulum ut elit placerat, placerat dolor quis, pharetra leo. Donec nec egestas enim. Aliquam tincidunt tincidunt finibus. Pellentesque fringilla dapibus lorem at hendrerit. Donec ac justo elementum, pharetra quam ac, dignissim sapien. Nunc at nibh sit amet odio ultrices commodo.</Text>
+                            <Text style={styles.infoText}>{this.state.data.info}</Text>
                         </FadeInView>                        
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
                     </View> : null}
@@ -151,7 +151,9 @@ export default class SpeakerRow extends Component {
     },
     
     textBoxContainer: {
+        flex: 3,
         marginLeft: 3,
+        justifyContent: 'center',
     },
 
     textBox: {

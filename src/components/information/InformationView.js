@@ -1,30 +1,42 @@
 import React, { Component } from 'react';  
-import { StyleSheet, View, Text, ImageBackground } from 'react-native';
-import BusInfo from './BusInfo'
-import Sponsors from './Sponsors'
+import { StyleSheet, View, Text, ImageBackground, ListView , Image} from 'react-native';
+import BusInfo from './BusInfo';
+import Sponsors from './Sponsors';
+import Faq from './Faq';
+import Staff from './Staff';
+import InformationRow from './InformationRow';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
-export default class InformationView extends Component { 
+export default class InformationView extends Component {
+ 
+  scrollToTop = () => {
+    this.scrollViewRef.scrollTo({x: 0, y: 0, animated: true})
+  }
 
 	render() {
 		return (
       <ImageBackground
-        source={require('../../../assets/inspo/Banner-30opa.png')}
+        source={require('../../../assets/img/banner-done.png')}
         imageStyle={{resizeMode: 'cover'}}
         style={styles.backgroundImage}
       >
-        <View style={styles.viewStyles} ref={(c) => {this.listViewRef = c}}>
-          <Text style={styles.titleText}> Hydrogen Fuel Cell Conferance 2018</Text>
-          {/* <BusInfo />
-          <Sponsors /> */}
-        </View>
+        <ScrollView ref={(c) => {this.scrollViewRef = c}} style={styles.scrollView}>
+          <InformationRow icon={Icons.bus} header='Arrival' content={<BusInfo/>}/>
+          <InformationRow icon={Icons.handshakeO} header='Partners' content={<Sponsors/>}/>
+          <InformationRow icon={Icons.question} header='FAQ' content={<Faq/>}/>
+          <InformationRow icon={Icons.users} header='Staff' content={<Staff/>}/>
+        </ScrollView>
       </ImageBackground>
 		);
 	}
 }
 
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
-  viewStyles: {
-      // Here you can write styles for the different components, in this case the View
+  scrollView: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingHorizontal: 5,
   },
 
   backgroundImage: {
@@ -33,11 +45,27 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
     height: null,
   },
 
+  pictureStyle: {
+    width: 100,
+    height: 100,
+  }, 
+
+  logoStyle: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    width: 150,
+    height: 70
+  },
+
   titleText: {
     textAlign: 'center',
-    fontSize: 28,
+    fontSize: 14,
     fontFamily: 'PatuaOne',
     color: '#2a2d22',
   },
+
+  textStyles: {
+    textAlign: 'center',
+  }
 
 });

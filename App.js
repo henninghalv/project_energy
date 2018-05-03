@@ -78,6 +78,9 @@ export default class App extends Component {  // This is where you name the comp
     else if(this.state.index == 1){
       this.speakerListViewRef.scrollToTop()
     }
+    else{
+      this.informationRef.scrollToTop()
+    }
   }
   
   _handleIndexChange = index => this.setState({ index });
