@@ -23,8 +23,8 @@ export default class InformationView extends Component {
       >
         <ScrollView ref={(c) => {this.scrollViewRef = c}} style={styles.scrollView}>
           <InformationRow icon={Icons.bus} header='Arrival' content={<BusInfo/>}/>
+          <InformationRow icon={Icons.question} header='Help' content={<Faq/>}/>
           <InformationRow icon={Icons.handshakeO} header='Partners' content={<Sponsors/>}/>
-          <InformationRow icon={Icons.question} header='FAQ' content={<Faq/>}/>
           <InformationRow icon={Icons.users} header='Staff' content={<Staff/>}/>
         </ScrollView>
       </ImageBackground>

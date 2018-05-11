@@ -1,7 +1,7 @@
 import React, { Component } from 'react';  // This has to be imported in every component
-import { StyleSheet, View, ListView, Text, Image, ImageBackground, TouchableOpacity, AsyncStorage} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
+import { StyleSheet, View, ListView, FlatList, Text, Image, ImageBackground, TouchableOpacity, AsyncStorage, ActivityIndicator} from 'react-native'; // This is where you import the components you would like to use (e.g. View, Text, Button...)
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {Constants, Permissions, Notifications} from 'expo'
+import {Constants, Permissions, Notifications} from 'expo';
 import ProgramRow from './ProgramRow';
 import data from './ProgramData';  
 
@@ -19,6 +19,7 @@ export default class ProgramListView extends Component { // Remember to give the
 
     this.state = {
       dataSource: ds.cloneWithRows(data),  
+      _data: data,
       mondayEnabled: false, 
       tuesdayEnabled: false,
       favoriteEnabled: false,  //This row is favorited
@@ -26,6 +27,7 @@ export default class ProgramListView extends Component { // Remember to give the
       favorites: this.getFromStorage('favorites'),  //List of row ID's
       notifications: this.getFromStorage('notifications'),  //Get mapping of notifications to favorites
       isLoading: true,
+      refresh: true,
     }; 
   }
 
@@ -53,8 +55,9 @@ export default class ProgramListView extends Component { // Remember to give the
     android: // (optional) (object) — notification configuration specific to Android.
       {
         sound: true, // (optional) (boolean) — if true, play a sound. Default: false.
+        icon: '../../../assets/img/logo48.png',
         //icon (optional) (string) — URL of icon to display in notification drawer.
-        color: 'forestgreen', //(optional) (string) — color of the notification icon in notification drawer.
+        color: '#018440', //(optional) (string) — color of the notification icon in notification drawer.
         priority: 'high', // (optional) (min | low | high | max) — android may present notifications according to the priority, for example a high priority notification will likely to be shown as a heads-up notification.
         sticky: false, // (optional) (boolean) — if true, the notification will be sticky and not dismissable by user. The notification must be programmatically dismissed. Default: false.
         vibrate: true // (optional) (boolean or array) — if true, vibrate the device. An array can be supplied to specify the vibration pattern, e.g. - [ 0, 500 ].
@@ -65,7 +68,7 @@ export default class ProgramListView extends Component { // Remember to give the
     let t = new Date();  // Create a new date that is now
     console.log("NOW:   " + Date.now())
     console.log("EVENT:   " + timestamp)
-    let secondsUntilNotify = (timestamp - Date.now()) / 1000;
+    let secondsUntilNotify = (timestamp - (Date.now()) / 1000);
     console.log(secondsUntilNotify)
     if(secondsUntilNotify > 0){
       t.setSeconds(secondsUntilNotify);  
@@ -166,23 +169,30 @@ export default class ProgramListView extends Component { // Remember to give the
       }
   }
   
-  reRenderListView(){
+  reRenderListView(newDataSource){
     this.setState({
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !==
       r2 }).cloneWithRows(data)  
+      // refresh: !this.state.refresh
     });
   }
 
   toggleMondayFilter = () => {
     {this.state.tuesdayEnabled ? this.setState({tuesdayEnabled: !this.state.tuesdayEnabled}) : null}
     this.setState({mondayEnabled: !this.state.mondayEnabled})
-    this.reRenderListView()
+    this.reRenderListView();
   }
 
   toggleTuesdayFilter = () => {
     {this.state.mondayEnabled ? this.setState({mondayEnabled: !this.state.mondayEnabled}) : null}
-    this.setState({tuesdayEnabled: !this.state.tuesdayEnabled})
-    this.reRenderListView()
+    this.setState({tuesdayEnabled: !this.state.tuesdayEnabled}, () =>{
+      if(this.state.tuesdayEnabled){
+        this.setState({_data: data.filter(row => row.day != "Monday")}, this.reRenderListView())
+      }
+      else{
+        this.setState({_data: data}, this.reRenderListView())
+      }
+    })
   }
 
   scrollToTop = () => {
@@ -195,6 +205,7 @@ export default class ProgramListView extends Component { // Remember to give the
 
   renderRow = (data, sectionID, rowID) => {
     //TODO: Extract to several methods ?
+    // console.log(rowID)
     isFavorite = this.state.favorites.includes(rowID)
     if(this.state.favoritesEnabled){
       if(isFavorite){
@@ -226,6 +237,41 @@ export default class ProgramListView extends Component { // Remember to give the
     }
   }
 
+  renderItem = (item, index) => {
+    let data = item.item
+    //TODO: Extract to several methods ?
+    
+    isFavorite = this.state.favorites.includes(index)
+    if(this.state.favoritesEnabled){
+      if(isFavorite){
+        if(this.state.mondayEnabled && !this.state.tuesdayEnabled){
+          return data.day == "Monday" ? this.rowGetter(data, index, isFavorite) : null
+        }
+        else if(!this.state.mondayEnabled && this.state.tuesdayEnabled){
+          return data.day == "Tuesday" ? this.rowGetter(data, index, isFavorite) : null
+        }
+        else{
+          return this.rowGetter(data, index, isFavorite)
+        }
+      }
+      //If no:
+      else{
+        return null
+      }
+    }
+    else{
+      if(this.state.mondayEnabled && !this.state.tuesdayEnabled){
+        return data.day == "Monday" ? this.rowGetter(data, index, isFavorite) : null
+      }
+      else if(!this.state.mondayEnabled && this.state.tuesdayEnabled){
+        return data.day == "Tuesday" ? this.rowGetter(data, index, isFavorite) : null
+      }
+      else{
+        return this.rowGetter(data, index, isFavorite)
+      }
+    }
+  }
+
   render () { 
     return ( 
       <ImageBackground
@@ -241,13 +287,29 @@ export default class ProgramListView extends Component { // Remember to give the
             <Text style={this.state.tuesdayEnabled ? styles.buttonTextSelected : styles.buttonTextDeSelected}> TUESDAY </Text>
           </TouchableOpacity>
         </View>
-        {this.state.isLoading ? <Text style={styles.loadingText}> Loading... </Text> : 
+        {this.state.isLoading ? 
+        <View> 
+          <Text style={styles.loadingText}> Loading... </Text> 
+          <ActivityIndicator size="large" color="forestgreen" />
+        </View> 
+        : 
         <ListView 
           ref={(c) => {this.listViewRef = c}}
           style = {styles.container}
           dataSource = { this.state.dataSource } 
           renderRow = {this.renderRow}  
+          removeClippedSubviews={false}
+          initialListSize={1000}
         />
+        // <FlatList
+        //   ref={(c) => {this.listViewRef = c}}
+        //   style = {styles.container}
+        //   data={this.state._data}
+        //   renderItem={this.renderItem}
+        //   keyExtractor={(item, index) => index}
+        //   extraData={this.state.refresh}
+        // >
+        // </FlatList>
         }
       </ImageBackground>
     ); 
@@ -269,35 +331,36 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingHorizontal: 5,
     paddingBottom: 5,
-  },
-  daySelectButtonSelected: {
-    borderWidth: 0.8,
-    marginHorizontal: 2,
-    marginTop: 5,
-    paddingHorizontal: 28,
-    paddingVertical: 5,
-    backgroundColor: '#2a2d22',
-    opacity: 0.8
   },
   daySelectButtonDeSelected: {
     borderWidth: 0.8,
     marginHorizontal: 2,
     marginTop: 5,
-    paddingHorizontal: 28,
+    paddingHorizontal: 29,
     paddingVertical: 5,
     backgroundColor: 'white',
     opacity: 0.8
   },
-  buttonTextSelected: {
-    fontSize: 24,
-    fontFamily: 'PatuaOne',
-    color: 'white',
+  daySelectButtonSelected: {
+    borderWidth: 0.8,
+    marginHorizontal: 2,
+    marginTop: 5,
+    paddingHorizontal: 29,
+    paddingVertical: 5,
+    backgroundColor: '#2a2d22',
+    opacity: 0.8
   },
   buttonTextDeSelected: {
     fontSize: 24,
     fontFamily: 'PatuaOne',
     color: '#2a2d22',
+  },
+  buttonTextSelected: {
+    fontSize: 24,
+    fontFamily: 'PatuaOne',
+    color: 'white',
   },
   loadingText: {
     textAlign: 'center',

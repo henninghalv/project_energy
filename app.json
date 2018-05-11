@@ -1,15 +1,25 @@
 {
   "expo": {
-    "name": "Project Energy",
-    "slug": "projectenergy",
-    "sdkVersion": "25.0.0",
+    "name": "H2FC2018 Program",
+    "slug": "h2fc2018program",
+    "sdkVersion": "26.0.0",
     "version": "1.0.0",
     "privacy": "public",
     "ios": {
-      "bundleIdentifier": "com.yourcompany.yourappname"
+      "bundleIdentifier": "com.hbhdev.h2fc2018program"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "com.hbhdev.h2fc2018program",
+      "permissions": []
+    },
+    "icon": "assets/img/logo.png",
+    "notification": {
+      "icon": "assets/img/logo48.png"
+    },
+    "splash": {
+      "backgroundColor": "#228B22",
+      "image": "assets/img/banner-cropped.png",
+      "resizeMode": "cover"
     }
   }
 }

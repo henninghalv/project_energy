@@ -8,11 +8,29 @@ export default class SpeakerRow extends Component {
 
     constructor(props) {
         super(props);
-        
+        // Rekkefølge Keynote
+        // Prof. Odne S. Burheim
+        // Bjørn Simonsen
+        // Dr Kerry-Ann Adamson
+        // Dr Steffen Møller-Holst 
+        // Shanna D. Knights
+        // Prof. Daniel Hissel
+        // Prof. Gregory Jerkiewicz
+        // Prof. Vladimir Molkov
 		this.state = {
             expanded: false,
             type: 'workshop',
-            data: props
+            data: props,
+            images: [
+                require('../../../assets/img/speakers/odne_burheim.jpg'),
+                require('../../../assets/img/speakers/bjorn_simonsen.jpg'),
+                require('../../../assets/img/speakers/kerry_ann.jpg'),
+                require('../../../assets/img/speakers/steffen_press.jpg'),
+                require('../../../assets/img/speakers/shanna_d.jpg'),
+                require('../../../assets/img/speakers/daniel_hissel.jpg'),
+                require('../../../assets/img/speakers/jerkiewicz.jpg'),
+                require('../../../assets/img/speakers/vladimir_molkov.jpg'),
+            ]
 		}
 	}
 
@@ -47,9 +65,9 @@ export default class SpeakerRow extends Component {
                         <View style={styles.rowStyle}>
                             <View style={styles.imageWrapper}>
                                 {this.state.data.picture != undefined ?
-                                    <Image source= {{uri:this.state.data.picture.large}} style={styles.pictureStyle} />
+                                    <Image source={this.state.images[this.state.data.picture]} style={styles.pictureStyle} />
                                 :
-                                    <FontAwesome style={styles.speakerIcon}>{Icons.userCircle}</FontAwesome>
+                                    <Image source={require('../../../assets/icons/User-icon.png')} style={styles.imageIconStyles}/>
                                 }
                             </View>
 
@@ -59,24 +77,24 @@ export default class SpeakerRow extends Component {
                                     <Text style={styles.speakerText}>{`${this.state.data.name.title}`} {`${this.state.data.name.first}`} {`${this.state.data.name.last}`}</Text>
                                 </View>
 
-                                <View style={styles.textBox}>
+                                {/* <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.suitcase}</FontAwesome>
                                     <Text style={styles.speakerText}>{`${this.state.data.position}`}</Text>
+                                </View> */}
+
+                                <View style={styles.textBox}>
+                                    <FontAwesome style={styles.smallIcons}>{Icons.building}</FontAwesome>
+                                    <Text style={styles.speakerText}>{`${this.state.data.workplace}`}</Text>
                                 </View>
 
                                 <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.globe}</FontAwesome>
                                     <Text style={styles.speakerText}>{`${this.state.data.nationality}`}</Text>
                                 </View>
-
-                                <View style={styles.textBox}>
-                                    <FontAwesome style={styles.smallIcons}>{Icons.building}</FontAwesome>
-                                    <Text style={styles.speakerText}>{`${this.state.data.workplace}`}</Text>
-                                </View>
                             </View>
 
                         </View>
-                        {!isExpanded ? 
+                        {!isExpanded && this.state.data.info != ""? 
                         <View style={styles.centerArrow}>
                             <Text style={styles.arrow}> 
                                 <FontAwesome> {Icons.angleDown} </FontAwesome> 
@@ -84,7 +102,7 @@ export default class SpeakerRow extends Component {
                         </View>
                         : null}
                     </View>
-                    {isExpanded ? <View style={styles.centerArrow}>
+                    {isExpanded && this.state.data.info != "" ? <View style={styles.centerArrow}>
                         <FadeInView duration={350} style={styles.infoTextWrapper}>
                             <Text style={styles.infoText}>{this.state.data.info}</Text>
                         </FadeInView>                        
@@ -129,6 +147,11 @@ export default class SpeakerRow extends Component {
         paddingLeft: 5,
     },
 
+    imageIconStyles: {
+        width: 58,
+        height: 58,
+    },
+
     pictureStyle: {
         width: 60,
         height: 60,
@@ -160,6 +183,7 @@ export default class SpeakerRow extends Component {
         flexDirection: 'row',
         marginVertical: 1,
         marginLeft: 10,
+        maxWidth: '85%',
     },
 
     speakerText: {
@@ -170,16 +194,29 @@ export default class SpeakerRow extends Component {
     },
 
     infoTextWrapper: {
-        margin: 5
+        margin: 10
     },
 
     '@media (min-width: 0) and (max-width: 320)': {  //If the screen is smaller than 320px in width
         speakerText:{
-          fontSize: 12,
-          lineHeight: 12,  //Set this to the same as font size
+          fontSize: 10,
+          lineHeight: 10,  //Set this to the same as font size
         },
+
         favoriteIcon: {
             fontSize: 26,
+        },
+
+        speakerIcon: {
+            fontSize: 50,
+        },
+
+        smallIcons: {
+            fontSize: 11,
+        },
+
+        textBox: {
+            maxWidth: '80%'
         },
 
       },
@@ -190,17 +227,9 @@ export default class SpeakerRow extends Component {
           lineHeight: 20,  //Set this to the same as font size
         },
 
-        favoriteIcon: {
-            fontSize: 40,
-        },
-
-        keynoteIcon: {
-            fontSize: 100,
-        },
-    
         imageIconStyles: {
-            width: 80,
-            height: 80,
+            width: 78,
+            height: 78,
         },
 
         infoTextWrapper: {
@@ -215,6 +244,10 @@ export default class SpeakerRow extends Component {
             width: 80,
             height: 80,
             borderRadius: 40,
+        },
+
+        textBox: {
+            maxWidth: '100%'
         },
 
       }

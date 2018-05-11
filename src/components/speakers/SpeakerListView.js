@@ -31,7 +31,9 @@ export default class SpeakerListView extends Component { // Remember to give the
         ref={(c) => {this.listViewRef = c}}
         style = {styles.container}
         dataSource = { this.state.dataSource } 
-        renderRow = {(data) => <SpeakerRow {...data} />}  
+        renderRow = {(data) => <SpeakerRow {...data} />}
+        removeClippedSubviews={false}
+        initialListSize={1000}  
       /> 
       </ImageBackground>
     ); 

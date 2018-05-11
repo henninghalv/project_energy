@@ -90,7 +90,7 @@ export default class ProgramRow extends Component {
                             <View style={styles.textBoxContainer}>
                                 <View style={styles.textBox}>
                                     <FontAwesome style={styles.smallIcons}>{Icons.bookmark}</FontAwesome>
-                                    <Text style={styles.programText}>{`${this.state.data.title}`}</Text>
+                                    <Text style={[styles.programText, {fontWeight: 'bold'}]}>{`${this.state.data.title}`}</Text>
                                 </View>
                                 {this.state.data.speaker != undefined ?
                                 <View style={styles.textBox}>
@@ -124,16 +124,16 @@ export default class ProgramRow extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        {!isExpanded ? <Text style={styles.arrow}> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null}
+                        {/* {!isExpanded && this.state.data.description != "" ? <Text style={styles.arrow}> <FontAwesome> {Icons.angleDown} </FontAwesome> </Text> : null} */}
 
                     </View>
-                    {isExpanded ? 
+                    {/* {isExpanded && this.state.data.description != "" ? 
                     <View style={styles.centerArrow}>
                         <FadeInView duration={350} style={styles.infoTextWrapper}>
                             <Text style={styles.infoText}>{`${this.state.data.description}`}</Text>
                         </FadeInView>
                         <Text> <FontAwesome> {Icons.angleUp} </FontAwesome> </Text>
-                    </View> : null}
+                    </View> : null} */}
                 </TouchableOpacity>
             </View>
             
@@ -195,6 +195,7 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
     textBox: {
         flexDirection: 'row',
         marginVertical: 1,
+        maxWidth: '95%'
     },
 
     programText: {
@@ -221,11 +222,20 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
 
     '@media (min-width: 0) and (max-width: 320)': {  //If the screen is smaller than 320px in width
         programText:{
-          fontSize: 12,
-          lineHeight: 12,  //Set this to the same as font size
+          fontSize: 10,
+          lineHeight: 10,  //Set this to the same as font size
         },
+
         favoriteIcon: {
             fontSize: 26,
+        },
+
+        smallIcons: {
+            fontSize: 11,
+        },
+
+        textBox: {
+            maxWidth: '90%'
         },
 
       },
@@ -250,12 +260,16 @@ const styles = EStyleSheet.create({  // This is the React Native way to style. T
         },
 
         infoTextWrapper: {
-            margin: 15,
+            margin: 10,
         },
 
         infoText: {
             fontSize: 18
-        }
+        },
+
+        textBox: {
+            maxWidth: '100%'
+        },
 
       }
 });

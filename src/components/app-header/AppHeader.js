@@ -65,13 +65,14 @@ const styles = StyleSheet.create({  // This is the React Native way to style. Th
 		justifyContent: 'space-between',
 		paddingHorizontal: 10, 
 		paddingRight: 20, 
-		paddingLeft: 20
+		paddingLeft: 20,
+		borderBottomWidth: 0.2,
   },
 
   textStyles: {
 		fontSize: 36,
 		flex: 1, 
-  	fontFamily: 'RobotoMono',
+  	fontFamily: 'PatuaOne',
 	  textAlign: 'center',
     color: 'whitesmoke',
 		marginVertical: 4,

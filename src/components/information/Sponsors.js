@@ -45,9 +45,6 @@ export default class Sponsors extends Component { // Remember to give the compon
                     <View style={styles.logoContainer}>
                         <Image source = {require('../../../assets/sponsors/IAHE.png')} style={styles.pictureStyle} />
                     </View>
-                </View>
-                <Text style={styles.infoText}> Other </Text>
-                <View style={styles.sponsorsContainer}>
                     <View style={styles.logoContainer}>
                         <Image source = {require('../../../assets/sponsors/mozees.png')} style={styles.pictureStyle} />
                     </View>
@@ -58,6 +55,18 @@ export default class Sponsors extends Component { // Remember to give the compon
                         <Image source = {require('../../../assets/sponsors/norsk_hydrogen.png')} style={styles.pictureStyle} />
                     </View>
                 </View>
+                {/* <Text style={styles.infoText}> Other </Text>
+                <View style={styles.sponsorsContainer}>
+                    <View style={styles.logoContainer}>
+                        <Image source = {require('../../../assets/sponsors/mozees.png')} style={styles.pictureStyle} />
+                    </View>
+                    <View style={styles.logoContainer}>
+                        <Image source = {require('../../../assets/sponsors/chalmers.png')} style={styles.pictureStyle} />
+                    </View>
+                    <View style={styles.logoContainer}>
+                        <Image source = {require('../../../assets/sponsors/norsk_hydrogen.png')} style={styles.pictureStyle} />
+                    </View>
+                </View> */}
 			</View>
 		);
 	}
