@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  // This import has to be in every component
-import { StyleSheet, Text, View, Dimensions, Button, Image } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
+import { StyleSheet, Text, View, Dimensions, Button, Image, TouchableOpacity, Alert } from 'react-native';  //This is where you import the components from react-native which you want to use (e.g. View, Button, ...)
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { Font, AppLoading } from 'expo';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -7,33 +7,49 @@ import Icon from 'react-native-vector-icons';
 
 import StatusBarPusher from './src/components/status-bar-pusher/StatusBarPusher';
 import AppHeader from './src/components/app-header/AppHeader';
-import Speaker from './src/components/speakers/Speaker';  //This is an example of a importing a component we have written.
-import Program from './src/components/program/Program';
-import ListViewDemo from './src/components/listView/ListViewDemo';
+import SpeakerListView from './src/components/speakers/SpeakerListView';
+import ProgramListView from './src/components/program/ProgramListView';
+import InformationView from './src/components/information/InformationView';
+
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+EStyleSheet.build({}); // always call EStyleSheet.build() even if you don't use global variables!
+
 
 const initialLayout = {
   height: 0,
   width: Dimensions.get('window').width,
 };
- 
-const FirstRoute = () => 
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Program'/>
-   <ListViewDemo />
-  </View>;
-const SecondRoute = () =>
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Speakers'/>
-  </View>;
-const ThirdRoute = () => 
-  <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
-    <AppHeader headerText='Information'/>
-  </View>;
 
 export default class App extends Component {  // This is where you name the component and export it for use. This also has to be in every component.
 
+  FirstRoute = () => 
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='PROGRAM' isProgramTab={true} toggleFavorites={this.toggleFavorites}/>
+      <ProgramListView  ref={(ref) => { this.programListViewRef = ref; }} favoritesEnabled={this.state.favoritesEnabled}/>
+    </View>;
+
+  SecondRoute = () =>
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='SPEAKERS'/>
+      <SpeakerListView ref={(ref) => { this.speakerListViewRef = ref; }}/>
+    </View>;
+
+  ThirdRoute = () => 
+    <View style={[ styles.container, { backgroundColor: 'whitesmoke' } ]}>
+      <AppHeader headerText='INFORMATION'/>
+      <InformationView ref={(ref) => { this.informationRef = ref; }}/>
+    </View>;
+
+  toggleFavorites = () => {
+    this.setState({favoritesEnabled: !this.state.favoritesEnabled})
+    this.programListViewRef.setState({favoritesEnabled: !this.programListViewRef.state.favoritesEnabled})
+    this.programListViewRef.reRenderListView();
+  }
+
   state = {
     fontLoaded: false,
+    favoritesEnabled: false,
     index: 0,
     //This is where you name your routes/tabs and pass props like icons.
     routes: [
@@ -54,23 +70,41 @@ export default class App extends Component {  // This is where you name the comp
     }); 
     this.setState({ fontLoaded: true });
   }
+
+  scrollToTop = () => {
+    if(this.state.index == 0){
+      this.programListViewRef.scrollToTop()
+    }
+    else if(this.state.index == 1){
+      this.speakerListViewRef.scrollToTop()
+    }
+    else{
+      this.informationRef.scrollToTop()
+    }
+  }
   
   _handleIndexChange = index => this.setState({ index });
  
-  _renderFooter = props => <TabBar
-                             style={styles.tabs} 
-                             indicatorStyle={styles.tabIndicatorStyle} 
-                             labelStyle={styles.tabLabelStyle}
-                             renderIcon={this._renderIcon(props)}
-                             {...props} 
-                            />;
+  _renderFooter = (props) => {
+      return (
+          <TabBar
+            style={styles.tabs}
+            indicatorStyle={styles.tabIndicatorStyle}
+            onTabPress={() => this.scrollToTop()}
+            labelStyle={styles.tabLabelStyle}
+            renderIcon={this._renderIcon(props)}
+            {...props} 
+          />
+      )
+  } 
+                           
+                            
   // Tells the nav bar the order which the tabs should appear
   _renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute,
+    first: this.FirstRoute,
+    second: this.SecondRoute,
+    third: this.ThirdRoute,
   });
-
 
   _renderIcon = (props) => ({ route, index }) => {
     return <Text>{route.icon}</Text>
@@ -83,30 +117,31 @@ export default class App extends Component {  // This is where you name the comp
     return (
       <View style={styles.container}>
         <StatusBarPusher/>
-        <TabViewAnimated
-          navigationState={this.state}
-          renderScene={this._renderScene}
-          renderFooter={this._renderFooter}
-          onIndexChange={this._handleIndexChange}
-          initialLayout={initialLayout}
-        />
+          <TabViewAnimated
+            navigationState={this.state}
+            renderScene={this._renderScene}
+            renderFooter={this._renderFooter}
+            onIndexChange={this._handleIndexChange}
+            initialLayout={initialLayout}
+          />
       </View>
     );
   }
 }
 
-
 const win = Dimensions.get('window');  // Gets the device window for reference
 const styles = StyleSheet.create({  // This is the React Native way to style. This is basically css.
   container: {
-    flex: 1,
+    flex: 1
   },
   tabs: {  // Styles for the tab boxes
-    backgroundColor: '#e6e6ec',
+    backgroundColor: 'whitesmoke',
+    borderTopWidth: 0.2,
   },
   tabLabelStyle: {  // Styles for the tabs label text
     color: '#2a2d22',
     fontFamily: 'PatuaOne',
+    fontSize: 12
   },
   tabIndicatorStyle: {  // Styles for the current tab indicator
     backgroundColor: '#018440',  // This sets the indicator color
